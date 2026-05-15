@@ -31,7 +31,7 @@ const projects = [
       'End-to-end compliance pipeline connecting ERPNext to the Dominican Republic\'s DGII tax authority. Covers all 10 mandated e-CF invoice types — automated XML generation, dual-path submission, and real-time status tracking. A pre-validation layer catches format errors before they reach DGII, protecting government-issued invoice sequences. Most invoices clear DGII in under 5 seconds.',
     role: 'Full design & implementation, end to end.',
     tags: ['C# / Azure Functions', 'Azure Logic Apps', 'ERPNext', 'Python', 'XSLT / XML'],
-    links: [{ label: 'View architecture →', href: '#' }],
+    links: [{ label: 'View architecture →', href: '/projects/dgii-ecf' }],
   },
   {
     title: 'OCR Invoice Ingestion Pipeline',
@@ -42,7 +42,7 @@ const projects = [
       'AI-powered invoice ingestion for the accounting team. Upload a photo or PDF through a custom web form, get a fully registered Purchase Invoice in ERPNext. Azure Document Intelligence handles extraction; a Logic App routes the result — auto-creating suppliers from the DGII registry when they don\'t exist, handling errors gracefully, and improving accuracy with each invoice processed.',
     role: 'End-to-end: OCR integration, Logic App workflows, ERPNext, custom web form.',
     tags: ['Azure Document Intelligence', 'Azure Logic Apps', 'Angular', 'ERPNext', 'Python'],
-    links: [{ label: 'View details →', href: '#' }],
+    links: [{ label: 'View details →', href: '/projects/ocr-pipeline' }],
   },
   {
     title: 'ECF XML Validator',
@@ -53,7 +53,7 @@ const projects = [
       'A developer tool for validating Dominican Republic e-CF invoice XML against official DGII XSD schemas. Flags structural errors in red and recoverable warnings in yellow — so developers actually understand what\'s wrong, not just that something failed. Built because DGII\'s own tooling offers almost nothing in the way of actionable feedback.',
     role: 'Personal project.',
     tags: ['TypeScript', 'XSD / XML', 'npm package'],
-    links: [{ label: 'Coming soon', href: '#' }],
+    links: [{ label: 'Learn more →', href: '/projects/ecf-validator' }],
   },
 ]
 
