@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Instrument_Serif, DM_Sans } from 'next/font/google'
 
 // ── Fonts ─────────────────────────────────────────────────────────────────────
-// next/font calls must be at module level
 
 const instrumentSerif = Instrument_Serif({
   weight: '400',
@@ -28,7 +28,7 @@ const projects = [
     badge: 'Enterprise · Compliance',
     badgeStyle: 'bg-blue-950 text-blue-300',
     description:
-      'End-to-end compliance pipeline connecting ERPNext to the Dominican Republic\'s DGII tax authority. Covers all 10 mandated e-CF invoice types — automated XML generation, dual-path submission, and real-time status tracking. A pre-validation layer catches format errors before they reach DGII, protecting government-issued invoice sequences. Most invoices clear DGII in under 5 seconds.',
+      "End-to-end compliance pipeline connecting ERPNext to the Dominican Republic's DGII tax authority. Covers all 10 mandated e-CF invoice types — automated XML generation, dual-path submission, and real-time status tracking. A pre-validation layer catches format errors before they reach DGII, protecting government-issued invoice sequences. Most invoices clear DGII in under 5 seconds.",
     role: 'Full design & implementation, end to end.',
     tags: ['C# / Azure Functions', 'Azure Logic Apps', 'ERPNext', 'Python', 'XSLT / XML'],
     links: [{ label: 'View architecture →', href: '/projects/dgii-ecf' }],
@@ -39,7 +39,7 @@ const projects = [
     badge: 'Enterprise · AI',
     badgeStyle: 'bg-blue-950 text-blue-300',
     description:
-      'AI-powered invoice ingestion for the accounting team. Upload a photo or PDF through a custom web form, get a fully registered Purchase Invoice in ERPNext. Azure Document Intelligence handles extraction; a Logic App routes the result — auto-creating suppliers from the DGII registry when they don\'t exist, handling errors gracefully, and improving accuracy with each invoice processed.',
+      "AI-powered invoice ingestion for the accounting team. Upload a photo or PDF through a custom web form, get a fully registered Purchase Invoice in ERPNext. Azure Document Intelligence handles extraction; a Logic App routes the result — auto-creating suppliers from the DGII registry when they don't exist, handling errors gracefully, and improving accuracy with each invoice processed.",
     role: 'End-to-end: OCR integration, Logic App workflows, ERPNext, custom web form.',
     tags: ['Azure Document Intelligence', 'Azure Logic Apps', 'Angular', 'ERPNext', 'Python'],
     links: [{ label: 'View details →', href: '/projects/ocr-pipeline' }],
@@ -50,7 +50,7 @@ const projects = [
     badge: 'Open Source · In Development',
     badgeStyle: 'bg-emerald-950 text-emerald-400',
     description:
-      'A developer tool for validating Dominican Republic e-CF invoice XML against official DGII XSD schemas. Flags structural errors in red and recoverable warnings in yellow — so developers actually understand what\'s wrong, not just that something failed. Built because DGII\'s own tooling offers almost nothing in the way of actionable feedback.',
+      "A developer tool for validating Dominican Republic e-CF invoice XML against official DGII XSD schemas. Flags structural errors in red and recoverable warnings in yellow — so developers actually understand what's wrong, not just that something failed. Built because DGII's own tooling offers almost nothing in the way of actionable feedback.",
     role: 'Personal project.',
     tags: ['TypeScript', 'XSD / XML', 'npm package'],
     links: [{ label: 'Learn more →', href: '/projects/ecf-validator' }],
@@ -75,6 +75,8 @@ const skillGroups = [
     skills: ['.NET', 'Node.js', 'ERPNext', 'SQL Server', 'Entity Framework'],
   },
 ]
+
+const NAV_ITEMS = ['About', 'Projects', 'Skills', 'Contact'] as const
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 
@@ -103,14 +105,32 @@ function MailIcon() {
   )
 }
 
+function HamburgerIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+      <line x1="4" y1="7"  x2="20" y2="7"  />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <line x1="4" y1="17" x2="20" y2="17" />
+    </svg>
+  )
+}
+
+function CloseIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+      <line x1="6"  y1="6"  x2="18" y2="18" />
+      <line x1="18" y1="6"  x2="6"  y2="18" />
+    </svg>
+  )
+}
+
 // ── Component ──────────────────────────────────────────────────────────────────
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState('hero')
+  const [menuOpen, setMenuOpen] = useState(false)
 
-  // Highlight the nav link that matches the section currently in view.
-  // IntersectionObserver fires when a section crosses the middle 20% of the
-  // viewport (-40% top margin, -60% bottom margin).
+  // Track which section is in the middle of the viewport to highlight nav.
   useEffect(() => {
     const ids = ['hero', 'about', 'projects', 'skills', 'contact']
     const observer = new IntersectionObserver(
@@ -128,9 +148,7 @@ export default function Home() {
     return () => observer.disconnect()
   }, [])
 
-  // Reveal elements as they scroll into view.
-  // Any element with className="reveal" starts invisible and fades up once it
-  // enters the viewport. An optional inline transition-delay adds stagger.
+  // Fade-and-slide elements in as they scroll into view.
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -149,28 +167,18 @@ export default function Home() {
       className={`min-h-screen bg-gray-950 text-white ${dmSans.variable} ${instrumentSerif.variable}`}
       style={{ fontFamily: 'var(--font-body), sans-serif' }}
     >
-      {/* ── Global styles injected via <style> tag ────────────────────────────
-          We keep these here (rather than globals.css) so the component is
-          self-contained and portable. ──────────────────────────────────────── */}
       <style>{`
-        /* Display (serif) font utility */
         .display { font-family: var(--font-display), Georgia, serif; }
 
-        /* ── Hero entrance animations ── */
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(18px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        /* Each child gets a slightly longer delay for a staggered feel */
         .hero-1 { animation: fadeInUp .5s ease both; }
         .hero-2 { animation: fadeInUp .5s ease .09s both; }
         .hero-3 { animation: fadeInUp .5s ease .18s both; }
         .hero-4 { animation: fadeInUp .5s ease .28s both; }
 
-        /* ── Scroll-reveal ──
-           Elements start invisible and slightly below their final position.
-           The IntersectionObserver above adds .is-revealed when they enter
-           the viewport, which transitions them to their natural state. ── */
         .reveal {
           opacity: 0;
           transform: translateY(14px);
@@ -181,19 +189,12 @@ export default function Home() {
           transform: none;
         }
 
-        /* ── CTA shimmer ──
-           A bright diagonal bar sweeps across the button on a loop. ── */
         .shimmer { position: relative; overflow: hidden; }
         .shimmer::after {
           content: '';
           position: absolute;
           inset: 0;
-          background: linear-gradient(
-            105deg,
-            transparent 35%,
-            rgba(255, 255, 255, .18) 50%,
-            transparent 65%
-          );
+          background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.18) 50%, transparent 65%);
           background-size: 200% 100%;
           animation: shimmer 3.5s ease-in-out infinite;
         }
@@ -202,30 +203,67 @@ export default function Home() {
           100% { background-position: -200% 0; }
         }
 
-        /* ── Hero dot-grid background ── */
         .dot-grid {
-          background-image: radial-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px);
+          background-image: radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px);
           background-size: 28px 28px;
         }
+
+        /* Mobile menu: max-height transition for smooth open/close */
+        .mobile-menu {
+          overflow: hidden;
+          transition: max-height .25s ease;
+        }
+        .mobile-menu-closed { max-height: 0; }
+        .mobile-menu-open   { max-height: 16rem; }
       `}</style>
 
-      {/* ── Navigation ────────────────────────────────────────────────────────
-          Active section is tracked via IntersectionObserver (see above).
-          On small screens the nav links are hidden — the page is short enough
-          that this is fine; a hamburger menu can be added later if needed. ── */}
+      {/* ── Navigation ── */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-gray-950/80 backdrop-blur-md">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <span className="text-sm font-medium text-white">Gary De la Cruz</span>
+
+          {/* Desktop links */}
           <div className="hidden sm:flex items-center gap-8">
-            {['About', 'Projects', 'Skills', 'Contact'].map((item) => {
+            {NAV_ITEMS.map((item) => {
               const id = item.toLowerCase()
-              const isActive = activeSection === id
               return (
                 <a
                   key={item}
                   href={`#${id}`}
                   className={`text-sm transition-colors duration-200 ${
-                    isActive ? 'text-white' : 'text-gray-500 hover:text-gray-300'
+                    activeSection === id ? 'text-white' : 'text-gray-500 hover:text-gray-300'
+                  }`}
+                >
+                  {item}
+                </a>
+              )
+            })}
+          </div>
+
+          {/* Mobile hamburger — only visible below sm breakpoint */}
+          <button
+            className="sm:hidden text-gray-400 hover:text-white transition-colors"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {menuOpen ? <CloseIcon /> : <HamburgerIcon />}
+          </button>
+        </div>
+
+        {/* Mobile dropdown menu */}
+        <div
+          className={`mobile-menu sm:hidden ${menuOpen ? 'mobile-menu-open' : 'mobile-menu-closed'}`}
+        >
+          <div className="max-w-5xl mx-auto px-6 pb-4 flex flex-col">
+            {NAV_ITEMS.map((item) => {
+              const id = item.toLowerCase()
+              return (
+                <a
+                  key={item}
+                  href={`#${id}`}
+                  onClick={() => setMenuOpen(false)}
+                  className={`text-sm py-3 border-b border-white/5 last:border-0 transition-colors ${
+                    activeSection === id ? 'text-white' : 'text-gray-500 hover:text-gray-200'
                   }`}
                 >
                   {item}
@@ -236,30 +274,22 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* ── Hero ──────────────────────────────────────────────────────────────
-          Dot-grid gives the section texture without competing with the text.
-          The radial glow sits behind everything and creates atmospheric depth.
-          All four child elements animate in with staggered delays. ── */}
+      {/* ── Hero ── */}
       <section id="hero" className="relative pt-36 pb-28 px-6 dot-grid overflow-hidden">
-        {/* Atmospheric blue glow — purely decorative */}
         <div
           className="absolute pointer-events-none inset-0"
           style={{
             background:
-              'radial-gradient(ellipse 60% 55% at 15% 65%, rgba(59, 130, 246, .08) 0%, transparent 70%)',
+              'radial-gradient(ellipse 60% 55% at 15% 65%, rgba(59,130,246,.08) 0%, transparent 70%)',
           }}
         />
 
         <div className="max-w-5xl mx-auto relative">
-          {/* Status badge */}
           <div className="flex items-center gap-2 mb-6 hero-1">
             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-sm text-gray-400">Open to opportunities</span>
           </div>
 
-          {/* Headline — Instrument Serif for editorial weight.
-              clamp() keeps the font size fluid between mobile and desktop
-              without needing multiple breakpoint classes. */}
           <h1
             className="display font-normal leading-[1.08] tracking-tight mb-6 hero-2"
             style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.2rem)' }}
@@ -274,7 +304,6 @@ export default function Home() {
             platforms — clean code, real compliance, zero drama.
           </p>
 
-          {/* CTAs — flex-wrap so they stack naturally on very narrow screens */}
           <div className="flex flex-wrap items-center gap-4 hero-4">
             <a
               href="#projects"
@@ -283,7 +312,7 @@ export default function Home() {
               View my work
             </a>
             <a
-              href="/Gary_De_la_Cruz_Resume.pdf"
+              href="/GaryDelaCruz_SoftwareDeveloper.pdf"
               className="px-6 py-3 border border-white/20 text-sm text-white rounded-lg hover:bg-white/5 transition-colors"
             >
               Download résumé
@@ -292,10 +321,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── About ─────────────────────────────────────────────────────────────
-          Two-column on md+, single column on mobile.
-          The stat cards get an updated metric (<5s) reflecting real system
-          performance. Each block has .reveal for scroll animation. ── */}
+      {/* ── About ── */}
       <section id="about" className="py-24 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="reveal">
@@ -337,9 +363,10 @@ export default function Home() {
       </section>
 
       {/* ── Projects ──────────────────────────────────────────────────────────
-          Each card reveals with a staggered delay (i * 80ms).
-          Employer name is shown dimly in the card header.
-          A "Role" line makes your ownership of each project explicit. ── */}
+          Outer div: owns the scroll-reveal (.reveal + transitionDelay).
+          Inner div: owns hover effects (transition-all duration-200).
+          Keeping them separate prevents the fast hover duration from
+          overriding the slower reveal duration. ── */}
       <section id="projects" className="py-24 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="reveal">
@@ -354,51 +381,51 @@ export default function Home() {
             {projects.map((project, i) => (
               <div
                 key={project.title}
-                className="reveal border border-white/10 rounded-2xl p-6 hover:border-white/20 hover:-translate-y-0.5 transition-all duration-200"
+                className="reveal"
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                {/* Card header: badge + employer */}
-                <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
-                  <span className={`text-xs px-3 py-1 rounded-full ${project.badgeStyle}`}>
-                    {project.badge}
-                  </span>
-                  {project.employer && (
-                    <span className="text-xs text-gray-600">{project.employer}</span>
-                  )}
-                </div>
-
-                <h3 className="text-base font-medium text-white mb-2">{project.title}</h3>
-                <p className="text-sm text-gray-400 leading-relaxed mb-3">{project.description}</p>
-
-                {/* Role line — makes your ownership explicit without being verbose */}
-                {project.role && (
-                  <p className="text-xs text-gray-600 mb-4">
-                    <span className="text-gray-500">Role: </span>
-                    {project.role}
-                  </p>
-                )}
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs px-2 py-1 rounded-full bg-gray-900 text-gray-400"
-                    >
-                      {tag}
+                <div className="border border-white/10 rounded-2xl p-6 hover:border-white/20 hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
+                    <span className={`text-xs px-3 py-1 rounded-full ${project.badgeStyle}`}>
+                      {project.badge}
                     </span>
-                  ))}
-                </div>
+                    {project.employer && (
+                      <span className="text-xs text-gray-600">{project.employer}</span>
+                    )}
+                  </div>
 
-                <div className="flex items-center gap-4 pt-4 border-t border-white/5">
-                  {project.links.map((link) => (
-                    <a
-                      key={link.label}
-                      href={link.href}
-                      className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
-                    >
-                      {link.label}
-                    </a>
-                  ))}
+                  <h3 className="text-base font-medium text-white mb-2">{project.title}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed mb-3">{project.description}</p>
+
+                  {project.role && (
+                    <p className="text-xs text-gray-600 mb-4">
+                      <span className="text-gray-500">Role: </span>
+                      {project.role}
+                    </p>
+                  )}
+
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs px-2 py-1 rounded-full bg-gray-900 text-gray-400"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center gap-4 pt-4 border-t border-white/5">
+                    {project.links.map((link) => (
+                      <Link
+                        key={link.label}
+                        href={link.href}
+                        className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
@@ -406,14 +433,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Skills ────────────────────────────────────────────────────────────
-          1 column on mobile, 2 on sm+. Each card reveals independently. ── */}
+      {/* ── Skills ──────────────────────────────────────────────────────────── */}
       <section id="skills" className="py-24 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto">
-          <div className="reveal">
+          {/* mb-10 on the reveal wrapper provides spacing between the
+              heading block and the skill cards. Cleaner than a spacer div. */}
+          <div className="reveal mb-10">
             <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">Skills</span>
-            <h2 className="display text-2xl font-normal mt-3 mb-1">What I work with.</h2>
-            <div className="mb-10" />
+            <h2 className="display text-2xl font-normal mt-3">What I work with.</h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -440,9 +467,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Contact ───────────────────────────────────────────────────────────
-          LinkedIn and GitHub links now include their brand icons.
-          external links get target="_blank" + rel for safety. ── */}
+      {/* ── Contact ── */}
       <section id="contact" className="py-24 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="reveal">

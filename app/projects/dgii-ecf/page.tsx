@@ -14,6 +14,14 @@ const dmSans = DM_Sans({
   display: 'swap',
 })
 
+// ── Metadata ──────────────────────────────────────────────────────────────────
+
+export const metadata = {
+  title: 'DGII e-CF System — Gary De la Cruz',
+  description:
+    'Architecture and details for an end-to-end DGII e-CF compliance pipeline — covering all 10 mandated invoice types, Azure Functions orchestration, and real-time status tracking.',
+}
+
 // ── Colour tokens (match the portfolio dark theme) ─────────────────────────
 // Each system layer gets its own colour ramp.
 // ERPNext  → emerald   (teal fill / emerald stroke)

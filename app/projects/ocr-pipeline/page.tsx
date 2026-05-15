@@ -14,6 +14,14 @@ const dmSans = DM_Sans({
   display: 'swap',
 })
 
+// ── Metadata ──────────────────────────────────────────────────────────────────
+
+export const metadata = {
+  title: 'OCR Invoice Pipeline — Gary De la Cruz',
+  description:
+    'AI-powered invoice ingestion built on Azure Document Intelligence — upload a photo, get a registered Purchase Invoice in ERPNext, with automatic supplier creation from the DGII registry.',
+}
+
 // ── Colour tokens ──────────────────────────────────────────────────────────
 const c = {
   erp:  { fill: '#052e16', stroke: '#059669', title: '#d1fae5', sub: '#6ee7b7' },
@@ -298,7 +306,7 @@ export default function OcrPipelinePage() {
               },
               {
                 src: '/projects/ocr/Fallido.jpeg',
-                caption: 'Missing RNC',
+                caption: 'Error',
                 sub: 'Extracted data shown · actionable recovery tips in Spanish',
               },
               {

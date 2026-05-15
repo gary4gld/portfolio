@@ -306,12 +306,13 @@ function ValidatorMockup() {
             fontSize: '12px',
             lineHeight: '1.92',
             background: '#0d1117',
+            minHeight: '680px',
           }}
         />
         <div
           ref={errRef}
           className="py-3 px-3 bg-gray-950 shrink-0"
-          style={{ width: '264px' }}
+          style={{ width: '264px', minHeight: '680px' }}
         />
       </div>
     </div>
@@ -383,8 +384,8 @@ export default function EcfValidatorPage() {
           </div>
           <div className="space-y-3">
             {[
-              { label: 'What DGII says', text: '"El campo RNCComprador está vacío."', dim: false },
-              { label: 'What you need to know', text: 'RNCComprador is required for all E-31 invoices. Your buyer must have a valid RNC. The field cannot be omitted even if the buyer name is present.', dim: false },
+              { label: 'What DGII says', text: '"Campo RNCComprador invalido."', dim: false },
+              { label: 'What you need to know', text: 'RNCComprador is required for all E-31 invoices. Your buyer must have a valid RNC (or cedula). The field cannot be omitted even if the buyer name is present.', dim: false },
             ].map(({ label, text }) => (
               <div key={label} className="bg-gray-900 rounded-xl p-4">
                 <div className="text-xs font-medium text-gray-500 mb-2">{label}</div>
