@@ -61,54 +61,58 @@ const severities = [
   },
 ]
 
-// ── Roadmap ───────────────────────────────────────────────────────────────
+// ── What it checks (shipped) ──────────────────────────────────────────────
 
-const phases = [
+const capabilities = [
   {
-    label: 'MVP',
-    status: 'In development',
-    statusStyle: 'bg-emerald-950 text-emerald-400',
+    label: 'Schema & structure',
     items: [
-      'Paste or upload XML — pre-signature and signed both accepted',
-      'Auto-beautify packed XML before displaying',
-      'Invoice type detection → correct XSD schema selected automatically',
-      'Full schema validation against official DGII XSD files',
-      'RNC checksum validation (catches typos without a database lookup)',
-      'eNCF prefix ↔ TipoeCF consistency check',
-      'Signature presence detection — noted if absent',
-      'Inline highlighting with 4 severity levels',
-      'Clickable error panel — human-readable messages in Spanish',
+      'Official DGII XSD validation for all 10 e-CF types, the RFCE summary, and the ARECF / ACECF / ANECF response documents',
+      'Document type detected automatically — the right schema is picked for you',
+      'Packed or minified XML is beautified before display',
     ],
   },
   {
-    label: 'v1.1',
-    status: 'Planned',
-    statusStyle: 'bg-gray-900 text-gray-500',
+    label: 'Identity & sequences',
     items: [
-      'Math validation — ITBIS calculations, totals, retention amounts',
-      'Date sanity checks — FechaEmision, FechaHoraFirma, future dates',
+      'RNC and cédula check-digit validation, plus a live taxpayer lookup',
+      'eNCF prefix ↔ TipoeCF consistency',
+      'Province and municipality codes checked against DGII tables',
     ],
   },
   {
-    label: 'v1.2',
-    status: 'Planned',
-    statusStyle: 'bg-gray-900 text-gray-500',
+    label: 'Math',
     items: [
-      'Full conditional field logic — required-if rules by invoice type and buyer category',
-      'Field documentation on hover — the DGII spec for each field, inline',
+      'ITBIS rates, subtotals, additional taxes and MontoTotal recalculated and compared with the declared amounts',
+      'Export totals for E-46 (CIF = FOB + insurance + freight + other costs)',
+      'Foreign-currency (OtraMoneda) conversions verified',
     ],
   },
   {
-    label: 'v2',
-    status: 'Planned',
-    statusStyle: 'bg-gray-900 text-gray-500',
+    label: 'Business rules & dates',
     items: [
-      'Signature integrity verification — validate the cryptographic signature, not just its presence',
-      'Batch mode — validate multiple XMLs at once',
-      'Exportable error report',
+      '60+ DGII business rules — required-if fields and sections forbidden by invoice type',
+      'Future FechaHoraFirma detection, with a hint when a UTC / GMT-4 mismatch is the likely cause',
+      'Digital signature presence detected — pre-signature and signed XML both accepted',
     ],
   },
 ]
+
+const stats = [
+  { num: '14', label: 'DGII document formats' },
+  { num: '60+', label: 'Business rules' },
+  { num: '4', label: 'Severity levels' },
+  { num: '51', label: 'Automated tests' },
+]
+
+const nextUp = [
+  'Cryptographic signature verification — not just presence',
+  'Batch mode for validating many XMLs at once',
+  'Exportable error reports',
+]
+
+const LIVE_URL = 'https://ecf-validator.garydelacruz.dev'
+const REPO_URL = 'https://github.com/gary4gld/ecf-validator'
 
 // ── Validator mockup component ─────────────────────────────────────────────
 // Static shell rendered by React; content injected by useEffect after mount.
@@ -236,7 +240,7 @@ function ValidatorMockup() {
           const attrs = eid
             ? `data-lid="${eid}" style="display:flex;cursor:pointer;${ls}"`
             : `style="display:flex;${ls}"`
-          return `<div ${attrs}><span style="width:34px;min-width:34px;text-align:right;padding-right:12px;color:${nc};font-size:11px;opacity:${s ? 0.9 : 0.45};user-select:none;padding-top:1px">${n}</span><span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;color:#e6edf3;padding-right:10px">${colorize(text, sev)}</span></div>`
+          return `<div ${attrs}><span style="width:34px;min-width:34px;text-align:right;padding-right:12px;color:${nc};font-size:11px;opacity:${s ? 0.9 : 0.45};user-select:none;padding-top:1px">${n}</span><span style="flex:1;min-width:0;white-space:pre;color:#e6edf3;padding-right:16px">${colorize(text, sev)}</span></div>`
         })
         .join('')
 
@@ -271,11 +275,11 @@ function ValidatorMockup() {
       <div className="flex items-center justify-between flex-wrap gap-2 px-4 py-3 border-b border-white/10 bg-gray-900">
         <div className="flex items-center gap-3">
           <span className="font-medium text-white">ECF XML Validator</span>
-          <span className="text-xs px-2 py-0.5 rounded-full bg-blue-950 text-blue-300">
-            In development
+          <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400">
+            Interactive demo
           </span>
         </div>
-        <div className="flex gap-2">
+        <div className="hidden sm:flex gap-2">
           {['Paste XML', 'Upload file'].map(label => (
             <button
               key={label}
@@ -297,22 +301,23 @@ function ValidatorMockup() {
       </div>
 
       {/* Split pane */}
-      <div className="flex items-start">
-        <div
-          ref={xmlRef}
-          className="flex-1 min-w-0 py-3 border-r border-white/[0.07]"
-          style={{
-            fontFamily: "'Courier New', Consolas, monospace",
-            fontSize: '12px',
-            lineHeight: '1.92',
-            background: '#0d1117',
-            minHeight: '680px',
-          }}
-        />
+      {/* Stacks on small screens; side by side from md up. The XML pane
+          scrolls horizontally on its own so long lines never widen the page. */}
+      <div className="flex flex-col md:flex-row md:items-start">
+        <div className="flex-1 min-w-0 overflow-x-auto border-b md:border-b-0 md:border-r border-white/[0.07] md:min-h-[680px]" style={{ background: '#0d1117' }}>
+          <div
+            ref={xmlRef}
+            className="py-3 w-max min-w-full"
+            style={{
+              fontFamily: "'Courier New', Consolas, monospace",
+              fontSize: '12px',
+              lineHeight: '1.92',
+            }}
+          />
+        </div>
         <div
           ref={errRef}
-          className="py-3 px-3 bg-gray-950 shrink-0"
-          style={{ width: '264px', minHeight: '680px' }}
+          className="py-3 px-3 bg-gray-950 w-full md:w-[264px] md:shrink-0 md:min-h-[680px]"
         />
       </div>
     </div>
@@ -345,7 +350,7 @@ export default function EcfValidatorPage() {
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-5">
             <span className="text-xs px-3 py-1 rounded-full bg-emerald-950 text-emerald-400">
-              Open Source · In Development
+              Open Source · Live
             </span>
             <span className="text-xs text-gray-600">Personal project</span>
           </div>
@@ -355,7 +360,34 @@ export default function EcfValidatorPage() {
             official DGII XSD schemas. It highlights every issue in context — breaking
             errors, math discrepancies, conditional warnings, and informational notes —
             with human-readable messages instead of the vague feedback DGII gives you.
+            Validation runs in your browser — the XML itself is never uploaded.
           </p>
+          <div className="flex flex-wrap items-center gap-3 mt-8">
+            <a
+              href={LIVE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 bg-white text-gray-950 text-sm font-medium rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              Open the validator ↗
+            </a>
+            <a
+              href={REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 border border-white/20 text-sm text-white rounded-lg hover:bg-white/5 transition-colors"
+            >
+              View source on GitHub ↗
+            </a>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-10 max-w-2xl">
+            {stats.map(({ num, label }) => (
+              <div key={label} className="bg-gray-900 rounded-xl p-4">
+                <div className="text-2xl font-medium text-white">{num}</div>
+                <div className="text-xs text-gray-400 mt-1">{label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </header>
 
@@ -405,7 +437,10 @@ export default function EcfValidatorPage() {
             </span>
             <h2 className="display text-2xl font-normal mt-2">What it looks like</h2>
             <p className="text-gray-400 text-sm mt-2">
-              Click any error card to jump to the highlighted XML line — and back.
+              A simplified demo of the real interface. Click any issue to jump to its line — and back.{' '}
+              <a href={LIVE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">
+                Try it with your own XML ↗
+              </a>
             </p>
           </div>
           <ValidatorMockup />
@@ -438,37 +473,45 @@ export default function EcfValidatorPage() {
         </div>
       </section>
 
-      {/* ── Roadmap ── */}
+      {/* ── What it checks ── */}
       <section className="py-16 px-6 border-b border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="mb-8">
             <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">
-              Roadmap
+              Coverage
             </span>
-            <h2 className="display text-2xl font-normal mt-2">Built in phases.</h2>
+            <h2 className="display text-2xl font-normal mt-2">What it checks.</h2>
             <p className="text-gray-400 text-sm mt-2">
-              Shipping a useful MVP first, then expanding. No feature creep.
+              Everything below is live today.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {phases.map(({ label, status, statusStyle, items }) => (
+            {capabilities.map(({ label, items }) => (
               <div key={label} className="bg-gray-900 rounded-xl p-5">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-sm font-medium text-white">{label}</span>
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${statusStyle}`}>
-                    {status}
-                  </span>
-                </div>
+                <div className="text-sm font-medium text-white mb-4">{label}</div>
                 <ul className="space-y-2">
                   {items.map(item => (
                     <li key={item} className="flex items-start gap-2 text-xs text-gray-400 leading-relaxed">
-                      <span className="mt-1.5 w-1 h-1 rounded-full bg-gray-600 shrink-0" />
+                      <span className="mt-1.5 w-1 h-1 rounded-full bg-emerald-500 shrink-0" />
                       {item}
                     </li>
                   ))}
                 </ul>
               </div>
             ))}
+          </div>
+          <div className="mt-8">
+            <div className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-3">
+              Next up
+            </div>
+            <ul className="space-y-2">
+              {nextUp.map(item => (
+                <li key={item} className="flex items-start gap-2 text-xs text-gray-400 leading-relaxed">
+                  <span className="mt-1.5 w-1 h-1 rounded-full bg-gray-600 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
@@ -481,39 +524,33 @@ export default function EcfValidatorPage() {
               Open source
             </span>
             <h2 className="display text-2xl font-normal mt-3 mb-4">
-              Two things, one project.
+              Free to use. Free to read.
             </h2>
             <p className="text-gray-400 text-sm leading-relaxed">
-              The core validator logic will be published as a TypeScript npm package —
-              so other developers can integrate it into their own tooling without
-              depending on this interface. The web app is both a showcase of the
-              package and a standalone tool anyone can use.
+              The validator is a Next.js app written in TypeScript. Rules are organized by
+              category — format, math, conditional fields, sequences, registry — and a Vitest
+              suite runs valid and deliberately broken XML fixtures against the engine.
             </p>
           </div>
           <div className="space-y-3 mt-2">
             {[
-              { label: 'npm package', sub: 'Core validator — importable in any TypeScript project', tag: 'Coming soon' },
-              { label: 'Web interface', sub: 'This tool — open source on GitHub', tag: 'Coming soon' },
-            ].map(({ label, sub, tag }) => (
-              <div
+              { label: 'Web app', sub: 'ecf-validator.garydelacruz.dev', href: LIVE_URL },
+              { label: 'Source code', sub: 'github.com/gary4gld/ecf-validator', href: REPO_URL },
+            ].map(({ label, sub, href }) => (
+              <a
                 key={label}
-                className="flex items-center justify-between gap-4 border border-white/10 rounded-xl px-4 py-3"
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between gap-4 border border-white/10 rounded-xl px-4 py-3 hover:border-white/20 transition-colors"
               >
                 <div>
                   <div className="text-sm text-white font-medium">{label}</div>
-                  <div className="text-xs text-gray-500 mt-0.5">{sub}</div>
+                  <div className="text-xs text-gray-400 mt-0.5">{sub}</div>
                 </div>
-                <span className="text-xs text-gray-600 shrink-0">{tag}</span>
-              </div>
+                <span className="text-xs text-blue-400 shrink-0">Open ↗</span>
+              </a>
             ))}
-            <a
-              href="https://github.com/gary4gld"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 text-sm text-gray-400 px-4 py-3 border border-white/10 rounded-xl hover:border-white/20 hover:text-white transition-colors"
-            >
-              GitHub — gary4gld
-            </a>
           </div>
         </div>
       </section>

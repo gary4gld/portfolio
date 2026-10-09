@@ -47,13 +47,17 @@ const projects = [
   {
     title: 'ECF XML Validator',
     employer: null,
-    badge: 'Open Source · In Development',
+    badge: 'Open Source · Live',
     badgeStyle: 'bg-emerald-950 text-emerald-400',
     description:
-      "A developer tool for validating Dominican Republic e-CF invoice XML against official DGII XSD schemas. Flags structural errors in red and recoverable warnings in yellow — so developers actually understand what's wrong, not just that something failed. Built because DGII's own tooling offers almost nothing in the way of actionable feedback.",
-    role: 'Personal project.',
-    tags: ['TypeScript', 'XSD / XML', 'npm package'],
-    links: [{ label: 'Learn more →', href: '/projects/ecf-validator' }],
+      "A free web tool that checks Dominican Republic e-CF invoice XML before it reaches DGII. It validates every document type against the official XSD schemas plus 60+ DGII business rules — math, conditional fields, RNC check digits, sequence and date logic — and explains each issue in plain Spanish, right on the offending line. Built because DGII's own feedback rarely tells you what's actually wrong.",
+    role: 'Personal project — rules engine, UI, and test suite.',
+    tags: ['TypeScript', 'Next.js', 'XSD / XML', 'Vitest'],
+    links: [
+      { label: 'Try it live ↗', href: 'https://ecf-validator.garydelacruz.dev' },
+      { label: 'How it works →', href: '/projects/ecf-validator' },
+      { label: 'Source on GitHub ↗', href: 'https://github.com/gary4gld/ecf-validator' },
+    ],
   },
 ]
 
@@ -376,7 +380,7 @@ export default function Home() {
             <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">Projects</span>
             <h2 className="display text-2xl font-normal mt-3 mb-1">Things I&apos;ve built.</h2>
             <p className="text-gray-400 text-sm mb-10">
-              Production systems, not side projects collecting dust.
+              Production systems — and a side project that actually shipped.
             </p>
           </div>
 
@@ -418,16 +422,28 @@ export default function Home() {
                     ))}
                   </div>
 
-                  <div className="flex items-center gap-4 pt-4 border-t border-white/5">
-                    {project.links.map((link) => (
-                      <Link
-                        key={link.label}
-                        href={link.href}
-                        className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
-                      >
-                        {link.label}
-                      </Link>
-                    ))}
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-4 border-t border-white/5">
+                    {project.links.map((link) =>
+                      link.href.startsWith('http') ? (
+                        <a
+                          key={link.label}
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+                        >
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link
+                          key={link.label}
+                          href={link.href}
+                          className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+                        >
+                          {link.label}
+                        </Link>
+                      )
+                    )}
                   </div>
                 </div>
               </div>
