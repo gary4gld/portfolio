@@ -312,7 +312,7 @@ export default function Home() {
               View my work
             </a>
             <a
-              href="/GaryDelaCruz_SoftwareDeveloper.pdf"
+              href="/DelaCruz_Gary_SoftwareDeveloper.docx.pdf"
               className="px-6 py-3 border border-white/20 text-sm text-white rounded-lg hover:bg-white/5 transition-colors"
             >
               Download résumé
