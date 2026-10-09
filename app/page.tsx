@@ -64,7 +64,7 @@ const skillGroups = [
   },
   {
     category: 'Languages',
-    skills: ['C#', 'TypeScript', 'Python', 'JavaScript', 'Java'],
+    skills: ['C#', 'TypeScript', 'Python', 'JavaScript', 'Java', 'C++'],
   },
   {
     category: 'Frontend',
@@ -287,7 +287,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto relative">
           <div className="flex items-center gap-2 mb-6 hero-1">
             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-sm text-gray-400">Open to opportunities</span>
+            <span className="text-sm text-gray-400">Open to remote roles · willing to relocate</span>
           </div>
 
           <h1
@@ -312,10 +312,12 @@ export default function Home() {
               View my work
             </a>
             <a
-              href="/DelaCruz_Gary_SoftwareDeveloper.docx.pdf"
+              href="/resume/DelaCruz_Gary_SoftwareDeveloper.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-6 py-3 border border-white/20 text-sm text-white rounded-lg hover:bg-white/5 transition-colors"
             >
-              Download résumé
+              View resume
             </a>
           </div>
         </div>
@@ -337,19 +339,20 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <div className="space-y-4 reveal">
               <p className="text-gray-400 text-sm leading-relaxed">
-                Based in Santo Domingo, Dominican Republic. I specialize in enterprise integrations —
+                I specialize in enterprise integrations —
                 connecting ERPNext with tax authorities, building Azure-hosted automation pipelines,
                 and shipping Angular frontends that make complex workflows feel simple.
               </p>
               <p className="text-gray-400 text-sm leading-relaxed">
-                B.S. Computer Science, Westfield State University. Fluent in English and Spanish.
+                Based in Massachusetts, USA. B.S. Computer Science, Westfield State University.
+                Fluent in English and Spanish.
               </p>
             </div>
 
             <div className="grid gap-3 reveal" style={{ transitionDelay: '.08s' }}>
               {[
                 { num: '3+', label: 'Years of professional full-stack experience' },
-                { num: '5',  label: 'Programming languages in active production use' },
+                { num: '6',  label: 'Programming languages used in real-world projects' },
                 { num: '4',  label: 'Cloud & enterprise platforms shipped' },
               ].map(({ num, label }) => (
                 <div key={label} className="bg-gray-900 rounded-xl p-4">
@@ -478,8 +481,9 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="reveal">
               <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                Available for full-time roles, freelance integrations, and consulting on ERPNext or
-                DGII compliance systems. I respond within 24 hours.
+                Open to full-time roles — remote, hybrid, or on-site with relocation — as well as
+                freelance integrations and consulting on ERPNext or DGII compliance systems.
+                I respond within 24 hours.
               </p>
               <a
                 href="mailto:gary4gld@gmail.com"

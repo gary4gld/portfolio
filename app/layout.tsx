@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Gary De la Cruz — Full-Stack Developer",
-  description: "Full-stack developer and integration specialist based in Santo Domingo. Enterprise integrations, Azure pipelines, ERPNext, and compliance systems.",
+  description: "Full-stack developer and integration specialist based in Massachusetts. Enterprise integrations, Azure pipelines, ERPNext, and compliance systems.",
 };
 
 export default function RootLayout({
