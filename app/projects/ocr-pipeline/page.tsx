@@ -1,19 +1,6 @@
-import Link from 'next/link'
-import { Instrument_Serif, DM_Sans } from 'next/font/google'
 import { pageMetadata } from '@/lib/site'
+import ProjectPage from '@/components/ProjectPage'
 
-const instrumentSerif = Instrument_Serif({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-display',
-  display: 'swap',
-})
-
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-body',
-  display: 'swap',
-})
 
 // ── Metadata ──────────────────────────────────────────────────────────────────
 
@@ -67,24 +54,7 @@ function Node({
 
 export default function OcrPipelinePage() {
   return (
-    <div
-      className={`min-h-screen bg-gray-950 text-white ${dmSans.variable} ${instrumentSerif.variable}`}
-      style={{ fontFamily: 'var(--font-body), sans-serif' }}
-    >
-      <style>{`
-        .display { font-family: var(--font-display), Georgia, serif; }
-      `}</style>
-
-      {/* ── Navigation ── */}
-      <nav className="sticky top-0 z-50 border-b border-white/10 bg-gray-950/80 backdrop-blur-md">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center gap-3">
-          <Link href="/" className="text-sm text-gray-400 hover:text-blue-400 transition-colors">
-            ← Gary De la Cruz
-          </Link>
-          <span className="text-gray-600 text-sm">/</span>
-          <span className="text-sm text-gray-300">OCR Invoice Pipeline</span>
-        </div>
-      </nav>
+    <ProjectPage title="OCR Invoice Pipeline">
 
       {/* ── Header ── */}
       <header className="pt-16 pb-12 px-6 border-b border-white/10">
@@ -386,23 +356,6 @@ export default function OcrPipelinePage() {
         </div>
       </section>
 
-      {/* ── Back link ── */}
-      <div className="px-6 py-12">
-        <div className="max-w-5xl mx-auto">
-          <Link href="/"
-            className="text-sm text-gray-400 hover:text-blue-400 transition-colors">
-            ← Back to portfolio
-          </Link>
-        </div>
-      </div>
-
-      {/* ── Footer ── */}
-      <footer className="py-6 px-6 border-t border-white/10">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <span className="text-xs text-gray-400">Gary E. De la Cruz · 2026</span>
-          <span className="text-xs text-gray-400">Built with Next.js · Deployed on Vercel</span>
-        </div>
-      </footer>
-    </div>
+    </ProjectPage>
   )
 }
