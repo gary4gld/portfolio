@@ -39,7 +39,7 @@ const c = {
   wrap: { fill: '#0a0f1a', stroke: '#1e3a5f' },
   pill: { fill: '#0f172a', stroke: '#6366f1', text: '#c7d2fe' },
   line: '#374151',
-  note: '#4b5563',
+  note: '#9ca3af',
 }
 
 // ── Reusable SVG node components ───────────────────────────────────────────
@@ -93,12 +93,12 @@ export default function DgiiEcfPage() {
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center gap-3">
           <Link
             href="/"
-            className="text-sm text-gray-500 hover:text-white transition-colors"
+            className="text-sm text-gray-400 hover:text-blue-400 transition-colors"
           >
             ← Gary De la Cruz
           </Link>
-          <span className="text-gray-700 text-sm">/</span>
-          <span className="text-sm text-gray-400">DGII e-CF System</span>
+          <span className="text-gray-600 text-sm">/</span>
+          <span className="text-sm text-gray-300">DGII e-CF System</span>
         </div>
       </nav>
 
@@ -109,12 +109,12 @@ export default function DgiiEcfPage() {
             <span className="text-xs px-3 py-1 rounded-full bg-blue-950 text-blue-300">
               Enterprise · Compliance
             </span>
-            <span className="text-xs text-gray-600">Neural Software Solutions, SRL</span>
+            <span className="text-xs text-gray-400">Neural Software Solutions, SRL</span>
           </div>
           <h1 className="display text-4xl font-normal mb-4">
             DGII e-CF Electronic Invoicing System
           </h1>
-          <p className="text-gray-400 text-sm max-w-2xl leading-relaxed">
+          <p className="text-gray-300 text-sm max-w-2xl leading-relaxed">
             An end-to-end compliance pipeline connecting ERPNext to the Dominican Republic&apos;s
             DGII tax authority. From a single user action to a signed, submitted, and tracked
             electronic invoice — across Azure Functions, Logic Apps, and the DGII&apos;s own
@@ -129,7 +129,7 @@ export default function DgiiEcfPage() {
       <section className="py-16 px-6 border-b border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="mb-8">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">
               Architecture
             </span>
             <h2 className="display text-2xl font-normal mt-2">System flow</h2>
@@ -232,7 +232,7 @@ export default function DgiiEcfPage() {
               <text
                 x={390} y={346}
                 textAnchor="middle" dominantBaseline="central"
-                fill="#4b5563" fontSize={9}
+                fill="#6b7280" fontSize={9}
                 fontFamily="monospace" letterSpacing={3}
               >
                 INVOICE TYPE ROUTING
@@ -335,10 +335,10 @@ export default function DgiiEcfPage() {
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
 
           <div>
-            <div className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-3">
+            <div className="text-xs font-medium text-blue-400 uppercase tracking-widest mb-3">
               My role
             </div>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-300 leading-relaxed">
               Full design and implementation, end to end — from the ERPNext server scripts
               and client-side validation, through the Azure Function orchestration layer,
               to the Logic App workflows and final DGII submission.
@@ -346,10 +346,10 @@ export default function DgiiEcfPage() {
           </div>
 
           <div>
-            <div className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-3">
+            <div className="text-xs font-medium text-blue-400 uppercase tracking-widest mb-3">
               What it solves
             </div>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-300 leading-relaxed">
               Dominican law requires every taxable transaction to be submitted to the DGII
               as an e-CF. Failed submissions consume government-issued NCF numbers that
               can&apos;t be recovered — so pre-validation and reliable delivery matter significantly.
@@ -358,7 +358,7 @@ export default function DgiiEcfPage() {
           </div>
 
           <div>
-            <div className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-3">
+            <div className="text-xs font-medium text-blue-400 uppercase tracking-widest mb-3">
               Stack
             </div>
             <div className="flex flex-wrap gap-2">
@@ -371,7 +371,7 @@ export default function DgiiEcfPage() {
               ].map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs px-2 py-1 rounded-full bg-gray-900 border border-white/10 text-gray-400"
+                  className="text-xs px-2 py-1 rounded-full bg-gray-900 border border-white/10 text-gray-300"
                 >
                   {tag}
                 </span>
@@ -387,7 +387,7 @@ export default function DgiiEcfPage() {
         <div className="max-w-5xl mx-auto">
           <Link
             href="/"
-            className="text-sm text-gray-500 hover:text-white transition-colors"
+            className="text-sm text-gray-400 hover:text-blue-400 transition-colors"
           >
             ← Back to portfolio
           </Link>
@@ -397,8 +397,8 @@ export default function DgiiEcfPage() {
       {/* ── Footer ── */}
       <footer className="py-6 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <span className="text-xs text-gray-600">Gary E. De la Cruz · 2026</span>
-          <span className="text-xs text-gray-600">Built with Next.js · Deployed on Vercel</span>
+          <span className="text-xs text-gray-400">Gary E. De la Cruz · 2026</span>
+          <span className="text-xs text-gray-400">Built with Next.js · Deployed on Vercel</span>
         </div>
       </footer>
     </div>

@@ -183,12 +183,15 @@ export default function Home() {
         .hero-3 { animation: fadeInUp .5s ease .18s both; }
         .hero-4 { animation: fadeInUp .5s ease .28s both; }
 
-        .reveal {
+        /* Only hide .reveal content when JavaScript is running (the html.js
+           class is set by an inline script in layout.tsx). Without JS, every
+           section stays visible instead of being stuck at opacity 0. */
+        .js .reveal {
           opacity: 0;
           transform: translateY(14px);
           transition: opacity .6s ease, transform .6s ease;
         }
-        .reveal.is-revealed {
+        .js .reveal.is-revealed {
           opacity: 1;
           transform: none;
         }
@@ -219,6 +222,15 @@ export default function Home() {
         }
         .mobile-menu-closed { max-height: 0; }
         .mobile-menu-open   { max-height: 16rem; }
+
+        /* Respect the OS "reduce motion" setting: no entrance animations,
+           no shimmer, content shown immediately. */
+        @media (prefers-reduced-motion: reduce) {
+          .hero-1, .hero-2, .hero-3, .hero-4 { animation: none; }
+          .js .reveal { opacity: 1; transform: none; transition: none; }
+          .shimmer::after { animation: none; display: none; }
+          .mobile-menu { transition: none; }
+        }
       `}</style>
 
       {/* ── Navigation ── */}
@@ -235,7 +247,7 @@ export default function Home() {
                   key={item}
                   href={`#${id}`}
                   className={`text-sm transition-colors duration-200 ${
-                    activeSection === id ? 'text-white' : 'text-gray-500 hover:text-gray-300'
+                    activeSection === id ? 'text-blue-400' : 'text-gray-400 hover:text-white'
                   }`}
                 >
                   {item}
@@ -246,9 +258,11 @@ export default function Home() {
 
           {/* Mobile hamburger — only visible below sm breakpoint */}
           <button
-            className="sm:hidden text-gray-400 hover:text-white transition-colors"
+            className="sm:hidden text-gray-300 hover:text-white transition-colors"
             onClick={() => setMenuOpen((o) => !o)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
           >
             {menuOpen ? <CloseIcon /> : <HamburgerIcon />}
           </button>
@@ -256,7 +270,9 @@ export default function Home() {
 
         {/* Mobile dropdown menu */}
         <div
+          id="mobile-menu"
           className={`mobile-menu sm:hidden ${menuOpen ? 'mobile-menu-open' : 'mobile-menu-closed'}`}
+          inert={!menuOpen}
         >
           <div className="max-w-5xl mx-auto px-6 pb-4 flex flex-col">
             {NAV_ITEMS.map((item) => {
@@ -267,7 +283,7 @@ export default function Home() {
                   href={`#${id}`}
                   onClick={() => setMenuOpen(false)}
                   className={`text-sm py-3 border-b border-white/5 last:border-0 transition-colors ${
-                    activeSection === id ? 'text-white' : 'text-gray-500 hover:text-gray-200'
+                    activeSection === id ? 'text-blue-400' : 'text-gray-400 hover:text-white'
                   }`}
                 >
                   {item}
@@ -290,8 +306,8 @@ export default function Home() {
 
         <div className="max-w-5xl mx-auto relative">
           <div className="flex items-center gap-2 mb-6 hero-1">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-sm text-gray-400">Open to remote roles · willing to relocate</span>
+            <div className="w-2 h-2 rounded-full bg-emerald-500 motion-safe:animate-pulse" />
+            <span className="text-sm text-gray-300">Open to remote roles · willing to relocate</span>
           </div>
 
           <h1
@@ -303,7 +319,7 @@ export default function Home() {
             <span className="text-gray-400">&amp; integration specialist.</span>
           </h1>
 
-          <p className="text-lg text-gray-400 max-w-xl leading-relaxed mb-10 hero-3">
+          <p className="text-lg text-gray-300 max-w-xl leading-relaxed mb-10 hero-3">
             I build the bridges between enterprise systems and government
             platforms — clean code, real compliance, zero drama.
           </p>
@@ -331,23 +347,23 @@ export default function Home() {
       <section id="about" className="py-24 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="reveal">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">About</span>
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">About</span>
             <h2 className="display text-2xl font-normal mt-3 mb-1">
               A developer who ships in the real world.
             </h2>
-            <p className="text-gray-400 text-sm mb-10">
+            <p className="text-gray-300 text-sm mb-10">
               Not just tutorials — production systems handling government compliance at scale.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <div className="space-y-4 reveal">
-              <p className="text-gray-400 text-sm leading-relaxed">
+              <p className="text-gray-300 text-sm leading-relaxed">
                 I specialize in enterprise integrations —
                 connecting ERPNext with tax authorities, building Azure-hosted automation pipelines,
                 and shipping Angular frontends that make complex workflows feel simple.
               </p>
-              <p className="text-gray-400 text-sm leading-relaxed">
+              <p className="text-gray-300 text-sm leading-relaxed">
                 Based in Massachusetts, USA. B.S. Computer Science, Westfield State University.
                 Fluent in English and Spanish.
               </p>
@@ -359,9 +375,9 @@ export default function Home() {
                 { num: '6',  label: 'Programming languages used in real-world projects' },
                 { num: '4',  label: 'Cloud & enterprise platforms shipped' },
               ].map(({ num, label }) => (
-                <div key={label} className="bg-gray-900 rounded-xl p-4">
+                <div key={label} className="bg-gray-900 border border-white/10 rounded-xl p-4">
                   <div className="text-2xl font-medium text-white">{num}</div>
-                  <div className="text-sm text-gray-500 mt-1">{label}</div>
+                  <div className="text-sm text-gray-400 mt-1">{label}</div>
                 </div>
               ))}
             </div>
@@ -377,9 +393,9 @@ export default function Home() {
       <section id="projects" className="py-24 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="reveal">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">Projects</span>
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">Projects</span>
             <h2 className="display text-2xl font-normal mt-3 mb-1">Things I&apos;ve built.</h2>
-            <p className="text-gray-400 text-sm mb-10">
+            <p className="text-gray-300 text-sm mb-10">
               Production systems — and a side project that actually shipped.
             </p>
           </div>
@@ -391,22 +407,22 @@ export default function Home() {
                 className="reveal"
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                <div className="border border-white/10 rounded-2xl p-6 hover:border-white/20 hover:-translate-y-0.5 transition-all duration-200">
+                <div className="bg-gray-900/40 border border-white/10 rounded-2xl p-6 hover:border-blue-500/40 hover:-translate-y-0.5 transition-all duration-200">
                   <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
                     <span className={`text-xs px-3 py-1 rounded-full ${project.badgeStyle}`}>
                       {project.badge}
                     </span>
                     {project.employer && (
-                      <span className="text-xs text-gray-600">{project.employer}</span>
+                      <span className="text-xs text-gray-400">{project.employer}</span>
                     )}
                   </div>
 
                   <h3 className="text-base font-medium text-white mb-2">{project.title}</h3>
-                  <p className="text-sm text-gray-400 leading-relaxed mb-3">{project.description}</p>
+                  <p className="text-sm text-gray-300 leading-relaxed mb-3">{project.description}</p>
 
                   {project.role && (
-                    <p className="text-xs text-gray-600 mb-4">
-                      <span className="text-gray-500">Role: </span>
+                    <p className="text-xs text-gray-400 mb-4">
+                      <span className="text-gray-400">Role: </span>
                       {project.role}
                     </p>
                   )}
@@ -415,7 +431,7 @@ export default function Home() {
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-xs px-2 py-1 rounded-full bg-gray-900 text-gray-400"
+                        className="text-xs px-2 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300"
                       >
                         {tag}
                       </span>
@@ -458,7 +474,7 @@ export default function Home() {
           {/* mb-10 on the reveal wrapper provides spacing between the
               heading block and the skill cards. Cleaner than a spacer div. */}
           <div className="reveal mb-10">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">Skills</span>
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">Skills</span>
             <h2 className="display text-2xl font-normal mt-3">What I work with.</h2>
           </div>
 
@@ -466,10 +482,10 @@ export default function Home() {
             {skillGroups.map(({ category, skills }, i) => (
               <div
                 key={category}
-                className="reveal bg-gray-900 rounded-xl p-5"
+                className="reveal bg-gray-900 border border-white/10 rounded-xl p-5"
                 style={{ transitionDelay: `${i * 60}ms` }}
               >
-                <div className="text-xs font-medium text-gray-500 mb-3">{category}</div>
+                <div className="text-xs font-medium text-gray-400 mb-3">{category}</div>
                 <div className="flex flex-wrap gap-2">
                   {skills.map((skill) => (
                     <span
@@ -490,13 +506,13 @@ export default function Home() {
       <section id="contact" className="py-24 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="reveal">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">Contact</span>
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">Contact</span>
             <h2 className="display text-2xl font-normal mt-3 mb-10">Let&apos;s build something.</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="reveal">
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+              <p className="text-gray-300 text-sm leading-relaxed mb-6">
                 Open to full-time roles — remote, hybrid, or on-site with relocation — as well as
                 freelance integrations and consulting on ERPNext or DGII compliance systems.
                 I respond within 24 hours.
@@ -535,9 +551,9 @@ export default function Home() {
                   href={href}
                   target={external ? '_blank' : undefined}
                   rel={external ? 'noopener noreferrer' : undefined}
-                  className="flex items-center gap-3 text-sm text-gray-400 px-4 py-3 border border-white/10 rounded-xl hover:border-white/20 hover:text-white transition-colors"
+                  className="flex items-center gap-3 text-sm text-gray-300 px-4 py-3 border border-white/10 rounded-xl hover:border-blue-500/40 hover:text-white transition-colors"
                 >
-                  <span className="text-gray-500 shrink-0">{icon}</span>
+                  <span className="text-gray-400 shrink-0">{icon}</span>
                   {label}
                 </a>
               ))}
@@ -549,8 +565,8 @@ export default function Home() {
       {/* ── Footer ── */}
       <footer className="py-6 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <span className="text-xs text-gray-600">Gary E. De la Cruz · 2026</span>
-          <span className="text-xs text-gray-600">Built with Next.js · Deployed on Vercel</span>
+          <span className="text-xs text-gray-400">Gary E. De la Cruz · 2026</span>
+          <span className="text-xs text-gray-400">Built with Next.js · Deployed on Vercel</span>
         </div>
       </footer>
     </div>

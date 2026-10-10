@@ -283,7 +283,7 @@ function ValidatorMockup() {
           {['Paste XML', 'Upload file'].map(label => (
             <button
               key={label}
-              className="text-xs px-3 py-1.5 rounded border border-white/15 text-gray-400 cursor-default"
+              className="text-xs px-3 py-1.5 rounded border border-white/15 text-gray-300 cursor-default"
             >
               {label}
             </button>
@@ -293,7 +293,7 @@ function ValidatorMockup() {
 
       {/* Result bar */}
       <div className="flex items-center flex-wrap gap-2 px-4 py-2 border-b border-white/10 bg-gray-950">
-        <span className="text-xs text-gray-500">
+        <span className="text-xs text-gray-400">
           E-31 · Factura de Crédito Fiscal ·{' '}
           <span className="text-blue-400">pre-firma</span>
         </span>
@@ -337,11 +337,11 @@ export default function EcfValidatorPage() {
       {/* ── Navigation ── */}
       <nav className="sticky top-0 z-50 border-b border-white/10 bg-gray-950/80 backdrop-blur-md">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center gap-3">
-          <Link href="/" className="text-sm text-gray-500 hover:text-white transition-colors">
+          <Link href="/" className="text-sm text-gray-400 hover:text-blue-400 transition-colors">
             ← Gary De la Cruz
           </Link>
-          <span className="text-gray-700 text-sm">/</span>
-          <span className="text-sm text-gray-400">ECF XML Validator</span>
+          <span className="text-gray-600 text-sm">/</span>
+          <span className="text-sm text-gray-300">ECF XML Validator</span>
         </div>
       </nav>
 
@@ -352,10 +352,10 @@ export default function EcfValidatorPage() {
             <span className="text-xs px-3 py-1 rounded-full bg-emerald-950 text-emerald-400">
               Open Source · Live
             </span>
-            <span className="text-xs text-gray-600">Personal project</span>
+            <span className="text-xs text-gray-400">Personal project</span>
           </div>
           <h1 className="display text-4xl font-normal mb-4">ECF XML Validator</h1>
-          <p className="text-gray-400 text-sm max-w-2xl leading-relaxed">
+          <p className="text-gray-300 text-sm max-w-2xl leading-relaxed">
             A developer tool for validating Dominican Republic e-CF invoice XML against
             official DGII XSD schemas. It highlights every issue in context — breaking
             errors, math discrepancies, conditional warnings, and informational notes —
@@ -382,9 +382,9 @@ export default function EcfValidatorPage() {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-10 max-w-2xl">
             {stats.map(({ num, label }) => (
-              <div key={label} className="bg-gray-900 rounded-xl p-4">
+              <div key={label} className="bg-gray-900 border border-white/10 rounded-xl p-4">
                 <div className="text-2xl font-medium text-white">{num}</div>
-                <div className="text-xs text-gray-400 mt-1">{label}</div>
+                <div className="text-xs text-gray-300 mt-1">{label}</div>
               </div>
             ))}
           </div>
@@ -395,20 +395,20 @@ export default function EcfValidatorPage() {
       <section className="py-16 px-6 border-b border-white/10">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           <div>
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">
               The problem
             </span>
             <h2 className="display text-2xl font-normal mt-3 mb-4">
               DGII tells you something is wrong. That&apos;s usually all it tells you.
             </h2>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-300 text-sm leading-relaxed">
               Nine times out of ten, the most you get from DGII is a field name and
               a generic error code — no indication of what the correct value should
               be, no hint at why your structure is wrong, no explanation of which
               conditional rule you violated. During the certification process you get
               slightly more context, but it&apos;s still limited and cryptic.
             </p>
-            <p className="text-gray-400 text-sm leading-relaxed mt-4">
+            <p className="text-gray-300 text-sm leading-relaxed mt-4">
               Developers end up debugging invoices blind: resubmitting, getting the
               same error, changing one field at a time, burning limited government-issued
               NCF sequences in the process.
@@ -419,8 +419,8 @@ export default function EcfValidatorPage() {
               { label: 'What DGII says', text: '"Campo RNCComprador invalido."', dim: false },
               { label: 'What you need to know', text: 'RNCComprador is required for all E-31 invoices. Your buyer must have a valid RNC (or cedula). The field cannot be omitted even if the buyer name is present.', dim: false },
             ].map(({ label, text }) => (
-              <div key={label} className="bg-gray-900 rounded-xl p-4">
-                <div className="text-xs font-medium text-gray-500 mb-2">{label}</div>
+              <div key={label} className="bg-gray-900 border border-white/10 rounded-xl p-4">
+                <div className="text-xs font-medium text-gray-400 mb-2">{label}</div>
                 <p className="text-sm text-gray-300 leading-relaxed">{text}</p>
               </div>
             ))}
@@ -432,11 +432,11 @@ export default function EcfValidatorPage() {
       <section className="py-16 px-6 border-b border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="mb-8">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">
               Interface
             </span>
             <h2 className="display text-2xl font-normal mt-2">What it looks like</h2>
-            <p className="text-gray-400 text-sm mt-2">
+            <p className="text-gray-300 text-sm mt-2">
               A simplified demo of the real interface. Click any issue to jump to its line — and back.{' '}
               <a href={LIVE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">
                 Try it with your own XML ↗
@@ -451,7 +451,7 @@ export default function EcfValidatorPage() {
       <section className="py-16 px-6 border-b border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="mb-8">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">
               Highlighting
             </span>
             <h2 className="display text-2xl font-normal mt-2">Five states, immediately readable</h2>
@@ -466,7 +466,7 @@ export default function EcfValidatorPage() {
                   <span className={`w-2.5 h-2.5 rounded-full ${dot} shrink-0`} />
                   <span className={`text-sm font-medium ${text}`}>{label}</span>
                 </div>
-                <p className="text-xs text-gray-500 leading-relaxed">{desc}</p>
+                <p className="text-xs text-gray-400 leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -477,21 +477,21 @@ export default function EcfValidatorPage() {
       <section className="py-16 px-6 border-b border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="mb-8">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">
               Coverage
             </span>
             <h2 className="display text-2xl font-normal mt-2">What it checks.</h2>
-            <p className="text-gray-400 text-sm mt-2">
+            <p className="text-gray-300 text-sm mt-2">
               Everything below is live today.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {capabilities.map(({ label, items }) => (
-              <div key={label} className="bg-gray-900 rounded-xl p-5">
+              <div key={label} className="bg-gray-900 border border-white/10 rounded-xl p-5">
                 <div className="text-sm font-medium text-white mb-4">{label}</div>
                 <ul className="space-y-2">
                   {items.map(item => (
-                    <li key={item} className="flex items-start gap-2 text-xs text-gray-400 leading-relaxed">
+                    <li key={item} className="flex items-start gap-2 text-xs text-gray-300 leading-relaxed">
                       <span className="mt-1.5 w-1 h-1 rounded-full bg-emerald-500 shrink-0" />
                       {item}
                     </li>
@@ -501,12 +501,12 @@ export default function EcfValidatorPage() {
             ))}
           </div>
           <div className="mt-8">
-            <div className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-3">
+            <div className="text-xs font-medium text-blue-400 uppercase tracking-widest mb-3">
               Next up
             </div>
             <ul className="space-y-2">
               {nextUp.map(item => (
-                <li key={item} className="flex items-start gap-2 text-xs text-gray-400 leading-relaxed">
+                <li key={item} className="flex items-start gap-2 text-xs text-gray-300 leading-relaxed">
                   <span className="mt-1.5 w-1 h-1 rounded-full bg-gray-600 shrink-0" />
                   {item}
                 </li>
@@ -520,13 +520,13 @@ export default function EcfValidatorPage() {
       <section className="py-16 px-6 border-b border-white/10">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
           <div>
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">
               Open source
             </span>
             <h2 className="display text-2xl font-normal mt-3 mb-4">
               Free to use. Free to read.
             </h2>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-300 text-sm leading-relaxed">
               The validator is a Next.js app written in TypeScript. Rules are organized by
               category — format, math, conditional fields, sequences, registry — and a Vitest
               suite runs valid and deliberately broken XML fixtures against the engine.
@@ -542,11 +542,11 @@ export default function EcfValidatorPage() {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between gap-4 border border-white/10 rounded-xl px-4 py-3 hover:border-white/20 transition-colors"
+                className="flex items-center justify-between gap-4 border border-white/10 rounded-xl px-4 py-3 hover:border-blue-500/40 transition-colors"
               >
                 <div>
                   <div className="text-sm text-white font-medium">{label}</div>
-                  <div className="text-xs text-gray-400 mt-0.5">{sub}</div>
+                  <div className="text-xs text-gray-300 mt-0.5">{sub}</div>
                 </div>
                 <span className="text-xs text-blue-400 shrink-0">Open ↗</span>
               </a>
@@ -558,7 +558,7 @@ export default function EcfValidatorPage() {
       {/* ── Back link ── */}
       <div className="px-6 py-12">
         <div className="max-w-5xl mx-auto">
-          <Link href="/" className="text-sm text-gray-500 hover:text-white transition-colors">
+          <Link href="/" className="text-sm text-gray-400 hover:text-blue-400 transition-colors">
             ← Back to portfolio
           </Link>
         </div>
@@ -567,8 +567,8 @@ export default function EcfValidatorPage() {
       {/* ── Footer ── */}
       <footer className="py-6 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <span className="text-xs text-gray-600">Gary E. De la Cruz · 2026</span>
-          <span className="text-xs text-gray-600">Built with Next.js · Deployed on Vercel</span>
+          <span className="text-xs text-gray-400">Gary E. De la Cruz · 2026</span>
+          <span className="text-xs text-gray-400">Built with Next.js · Deployed on Vercel</span>
         </div>
       </footer>
     </div>
