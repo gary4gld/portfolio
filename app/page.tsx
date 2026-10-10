@@ -1,23 +1,8 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Instrument_Serif, DM_Sans } from 'next/font/google'
-
-// ── Fonts ─────────────────────────────────────────────────────────────────────
-
-const instrumentSerif = Instrument_Serif({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-display',
-  display: 'swap',
-})
-
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-body',
-  display: 'swap',
-})
+import HomeNav from '@/components/HomeNav'
+import ScrollReveal from '@/components/ScrollReveal'
+import SiteFooter from '@/components/SiteFooter'
+import { LinkedInIcon, GitHubIcon, MailIcon } from '@/components/icons'
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -80,203 +65,15 @@ const skillGroups = [
   },
 ]
 
-const NAV_ITEMS = ['About', 'Projects', 'Skills', 'Contact'] as const
-
-// ── Icons ─────────────────────────────────────────────────────────────────────
-
-function LinkedInIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
-  )
-}
-
-function GitHubIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
-    </svg>
-  )
-}
-
-function MailIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect width="20" height="16" x="2" y="4" rx="2" />
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-    </svg>
-  )
-}
-
-function HamburgerIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
-      <line x1="4" y1="7"  x2="20" y2="7"  />
-      <line x1="4" y1="12" x2="20" y2="12" />
-      <line x1="4" y1="17" x2="20" y2="17" />
-    </svg>
-  )
-}
-
-function CloseIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
-      <line x1="6"  y1="6"  x2="18" y2="18" />
-      <line x1="18" y1="6"  x2="6"  y2="18" />
-    </svg>
-  )
-}
-
-// ── Component ──────────────────────────────────────────────────────────────────
+// ── Page ──────────────────────────────────────────────────────────────────────
+// Server component: all content is rendered as static HTML. Only the nav
+// (active section + mobile menu) and the scroll-reveal observer run in the browser.
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState('hero')
-  const [menuOpen, setMenuOpen] = useState(false)
-
-  // Track which section is in the middle of the viewport to highlight nav.
-  useEffect(() => {
-    const ids = ['hero', 'about', 'projects', 'skills', 'contact']
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id)
-        })
-      },
-      { rootMargin: '-40% 0px -60% 0px' }
-    )
-    ids.forEach((id) => {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
-    })
-    return () => observer.disconnect()
-  }, [])
-
-  // Fade-and-slide elements in as they scroll into view.
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('is-revealed')
-        })
-      },
-      { threshold: 0.08 }
-    )
-    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <div
-      className={`min-h-screen bg-gray-950 text-white ${dmSans.variable} ${instrumentSerif.variable}`}
-      style={{ fontFamily: 'var(--font-body), sans-serif' }}
-    >
-      <style>{`
-        .display { font-family: var(--font-display), Georgia, serif; }
-
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(18px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .hero-1 { animation: fadeInUp .5s ease both; }
-        .hero-2 { animation: fadeInUp .5s ease .09s both; }
-        .hero-3 { animation: fadeInUp .5s ease .18s both; }
-        .hero-4 { animation: fadeInUp .5s ease .28s both; }
-
-        .reveal {
-          opacity: 0;
-          transform: translateY(14px);
-          transition: opacity .6s ease, transform .6s ease;
-        }
-        .reveal.is-revealed {
-          opacity: 1;
-          transform: none;
-        }
-
-        .shimmer { position: relative; overflow: hidden; }
-        .shimmer::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.18) 50%, transparent 65%);
-          background-size: 200% 100%;
-          animation: shimmer 3.5s ease-in-out infinite;
-        }
-        @keyframes shimmer {
-          0%   { background-position: 200% 0; }
-          100% { background-position: -200% 0; }
-        }
-
-        .dot-grid {
-          background-image: radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px);
-          background-size: 28px 28px;
-        }
-
-        /* Mobile menu: max-height transition for smooth open/close */
-        .mobile-menu {
-          overflow: hidden;
-          transition: max-height .25s ease;
-        }
-        .mobile-menu-closed { max-height: 0; }
-        .mobile-menu-open   { max-height: 16rem; }
-      `}</style>
-
-      {/* ── Navigation ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-gray-950/80 backdrop-blur-md">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <span className="text-sm font-medium text-white">Gary De la Cruz</span>
-
-          {/* Desktop links */}
-          <div className="hidden sm:flex items-center gap-8">
-            {NAV_ITEMS.map((item) => {
-              const id = item.toLowerCase()
-              return (
-                <a
-                  key={item}
-                  href={`#${id}`}
-                  className={`text-sm transition-colors duration-200 ${
-                    activeSection === id ? 'text-white' : 'text-gray-500 hover:text-gray-300'
-                  }`}
-                >
-                  {item}
-                </a>
-              )
-            })}
-          </div>
-
-          {/* Mobile hamburger — only visible below sm breakpoint */}
-          <button
-            className="sm:hidden text-gray-400 hover:text-white transition-colors"
-            onClick={() => setMenuOpen((o) => !o)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          >
-            {menuOpen ? <CloseIcon /> : <HamburgerIcon />}
-          </button>
-        </div>
-
-        {/* Mobile dropdown menu */}
-        <div
-          className={`mobile-menu sm:hidden ${menuOpen ? 'mobile-menu-open' : 'mobile-menu-closed'}`}
-        >
-          <div className="max-w-5xl mx-auto px-6 pb-4 flex flex-col">
-            {NAV_ITEMS.map((item) => {
-              const id = item.toLowerCase()
-              return (
-                <a
-                  key={item}
-                  href={`#${id}`}
-                  onClick={() => setMenuOpen(false)}
-                  className={`text-sm py-3 border-b border-white/5 last:border-0 transition-colors ${
-                    activeSection === id ? 'text-white' : 'text-gray-500 hover:text-gray-200'
-                  }`}
-                >
-                  {item}
-                </a>
-              )
-            })}
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen">
+      <HomeNav />
+      <ScrollReveal />
 
       {/* ── Hero ── */}
       <section id="hero" className="relative pt-36 pb-28 px-6 dot-grid overflow-hidden">
@@ -290,8 +87,8 @@ export default function Home() {
 
         <div className="max-w-5xl mx-auto relative">
           <div className="flex items-center gap-2 mb-6 hero-1">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-sm text-gray-400">Open to remote roles · willing to relocate</span>
+            <div className="w-2 h-2 rounded-full bg-emerald-500 motion-safe:animate-pulse" />
+            <span className="text-sm text-gray-300">Open to remote roles · willing to relocate</span>
           </div>
 
           <h1
@@ -303,7 +100,7 @@ export default function Home() {
             <span className="text-gray-400">&amp; integration specialist.</span>
           </h1>
 
-          <p className="text-lg text-gray-400 max-w-xl leading-relaxed mb-10 hero-3">
+          <p className="text-lg text-gray-300 max-w-xl leading-relaxed mb-10 hero-3">
             I build the bridges between enterprise systems and government
             platforms — clean code, real compliance, zero drama.
           </p>
@@ -331,23 +128,23 @@ export default function Home() {
       <section id="about" className="py-24 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="reveal">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">About</span>
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">About</span>
             <h2 className="display text-2xl font-normal mt-3 mb-1">
               A developer who ships in the real world.
             </h2>
-            <p className="text-gray-400 text-sm mb-10">
+            <p className="text-gray-300 text-sm mb-10">
               Not just tutorials — production systems handling government compliance at scale.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <div className="space-y-4 reveal">
-              <p className="text-gray-400 text-sm leading-relaxed">
+              <p className="text-gray-300 text-sm leading-relaxed">
                 I specialize in enterprise integrations —
                 connecting ERPNext with tax authorities, building Azure-hosted automation pipelines,
                 and shipping Angular frontends that make complex workflows feel simple.
               </p>
-              <p className="text-gray-400 text-sm leading-relaxed">
+              <p className="text-gray-300 text-sm leading-relaxed">
                 Based in Massachusetts, USA. B.S. Computer Science, Westfield State University.
                 Fluent in English and Spanish.
               </p>
@@ -359,9 +156,9 @@ export default function Home() {
                 { num: '6',  label: 'Programming languages used in real-world projects' },
                 { num: '4',  label: 'Cloud & enterprise platforms shipped' },
               ].map(({ num, label }) => (
-                <div key={label} className="bg-gray-900 rounded-xl p-4">
+                <div key={label} className="bg-gray-900 border border-white/10 rounded-xl p-4">
                   <div className="text-2xl font-medium text-white">{num}</div>
-                  <div className="text-sm text-gray-500 mt-1">{label}</div>
+                  <div className="text-sm text-gray-400 mt-1">{label}</div>
                 </div>
               ))}
             </div>
@@ -377,9 +174,9 @@ export default function Home() {
       <section id="projects" className="py-24 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="reveal">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">Projects</span>
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">Projects</span>
             <h2 className="display text-2xl font-normal mt-3 mb-1">Things I&apos;ve built.</h2>
-            <p className="text-gray-400 text-sm mb-10">
+            <p className="text-gray-300 text-sm mb-10">
               Production systems — and a side project that actually shipped.
             </p>
           </div>
@@ -391,22 +188,22 @@ export default function Home() {
                 className="reveal"
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                <div className="border border-white/10 rounded-2xl p-6 hover:border-white/20 hover:-translate-y-0.5 transition-all duration-200">
+                <div className="bg-gray-900/40 border border-white/10 rounded-2xl p-6 hover:border-blue-500/40 hover:-translate-y-0.5 transition-all duration-200">
                   <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
                     <span className={`text-xs px-3 py-1 rounded-full ${project.badgeStyle}`}>
                       {project.badge}
                     </span>
                     {project.employer && (
-                      <span className="text-xs text-gray-600">{project.employer}</span>
+                      <span className="text-xs text-gray-400">{project.employer}</span>
                     )}
                   </div>
 
                   <h3 className="text-base font-medium text-white mb-2">{project.title}</h3>
-                  <p className="text-sm text-gray-400 leading-relaxed mb-3">{project.description}</p>
+                  <p className="text-sm text-gray-300 leading-relaxed mb-3">{project.description}</p>
 
                   {project.role && (
-                    <p className="text-xs text-gray-600 mb-4">
-                      <span className="text-gray-500">Role: </span>
+                    <p className="text-xs text-gray-400 mb-4">
+                      <span className="text-gray-400">Role: </span>
                       {project.role}
                     </p>
                   )}
@@ -415,7 +212,7 @@ export default function Home() {
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-xs px-2 py-1 rounded-full bg-gray-900 text-gray-400"
+                        className="text-xs px-2 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300"
                       >
                         {tag}
                       </span>
@@ -458,7 +255,7 @@ export default function Home() {
           {/* mb-10 on the reveal wrapper provides spacing between the
               heading block and the skill cards. Cleaner than a spacer div. */}
           <div className="reveal mb-10">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">Skills</span>
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">Skills</span>
             <h2 className="display text-2xl font-normal mt-3">What I work with.</h2>
           </div>
 
@@ -466,10 +263,10 @@ export default function Home() {
             {skillGroups.map(({ category, skills }, i) => (
               <div
                 key={category}
-                className="reveal bg-gray-900 rounded-xl p-5"
+                className="reveal bg-gray-900 border border-white/10 rounded-xl p-5"
                 style={{ transitionDelay: `${i * 60}ms` }}
               >
-                <div className="text-xs font-medium text-gray-500 mb-3">{category}</div>
+                <div className="text-xs font-medium text-gray-400 mb-3">{category}</div>
                 <div className="flex flex-wrap gap-2">
                   {skills.map((skill) => (
                     <span
@@ -490,13 +287,13 @@ export default function Home() {
       <section id="contact" className="py-24 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="reveal">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">Contact</span>
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">Contact</span>
             <h2 className="display text-2xl font-normal mt-3 mb-10">Let&apos;s build something.</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="reveal">
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+              <p className="text-gray-300 text-sm leading-relaxed mb-6">
                 Open to full-time roles — remote, hybrid, or on-site with relocation — as well as
                 freelance integrations and consulting on ERPNext or DGII compliance systems.
                 I respond within 24 hours.
@@ -535,9 +332,9 @@ export default function Home() {
                   href={href}
                   target={external ? '_blank' : undefined}
                   rel={external ? 'noopener noreferrer' : undefined}
-                  className="flex items-center gap-3 text-sm text-gray-400 px-4 py-3 border border-white/10 rounded-xl hover:border-white/20 hover:text-white transition-colors"
+                  className="flex items-center gap-3 text-sm text-gray-300 px-4 py-3 border border-white/10 rounded-xl hover:border-blue-500/40 hover:text-white transition-colors"
                 >
-                  <span className="text-gray-500 shrink-0">{icon}</span>
+                  <span className="text-gray-400 shrink-0">{icon}</span>
                   {label}
                 </a>
               ))}
@@ -546,13 +343,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="py-6 px-6 border-t border-white/10">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <span className="text-xs text-gray-600">Gary E. De la Cruz · 2026</span>
-          <span className="text-xs text-gray-600">Built with Next.js · Deployed on Vercel</span>
-        </div>
-      </footer>
+
+      <SiteFooter />
     </div>
   )
 }

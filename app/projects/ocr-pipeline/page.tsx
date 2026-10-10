@@ -1,26 +1,15 @@
-import Link from 'next/link'
-import { Instrument_Serif, DM_Sans } from 'next/font/google'
+import { pageMetadata } from '@/lib/site'
+import ProjectPage from '@/components/ProjectPage'
 
-const instrumentSerif = Instrument_Serif({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-display',
-  display: 'swap',
-})
-
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-body',
-  display: 'swap',
-})
 
 // ── Metadata ──────────────────────────────────────────────────────────────────
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'OCR Invoice Pipeline — Gary De la Cruz',
   description:
     'AI-powered invoice ingestion built on Azure Document Intelligence — upload a photo, get a registered Purchase Invoice in ERPNext, with automatic supplier creation from the DGII registry.',
-}
+  path: '/projects/ocr-pipeline',
+})
 
 // ── Colour tokens ──────────────────────────────────────────────────────────
 const c = {
@@ -29,7 +18,7 @@ const c = {
   dgii: { fill: '#1a0533', stroke: '#7c3aed', title: '#ede9fe', sub: '#c4b5fd' },
   neu:  { fill: '#111827', stroke: '#374151', title: '#f9fafb', sub: '#9ca3af' },
   line: '#374151',
-  note: '#4b5563',
+  note: '#9ca3af',
 }
 
 // ── Reusable node ──────────────────────────────────────────────────────────
@@ -65,24 +54,7 @@ function Node({
 
 export default function OcrPipelinePage() {
   return (
-    <div
-      className={`min-h-screen bg-gray-950 text-white ${dmSans.variable} ${instrumentSerif.variable}`}
-      style={{ fontFamily: 'var(--font-body), sans-serif' }}
-    >
-      <style>{`
-        .display { font-family: var(--font-display), Georgia, serif; }
-      `}</style>
-
-      {/* ── Navigation ── */}
-      <nav className="sticky top-0 z-50 border-b border-white/10 bg-gray-950/80 backdrop-blur-md">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center gap-3">
-          <Link href="/" className="text-sm text-gray-500 hover:text-white transition-colors">
-            ← Gary De la Cruz
-          </Link>
-          <span className="text-gray-700 text-sm">/</span>
-          <span className="text-sm text-gray-400">OCR Invoice Pipeline</span>
-        </div>
-      </nav>
+    <ProjectPage title="OCR Invoice Pipeline">
 
       {/* ── Header ── */}
       <header className="pt-16 pb-12 px-6 border-b border-white/10">
@@ -91,12 +63,12 @@ export default function OcrPipelinePage() {
             <span className="text-xs px-3 py-1 rounded-full bg-blue-950 text-blue-300">
               Enterprise · AI
             </span>
-            <span className="text-xs text-gray-600">Neural Software Solutions, SRL</span>
+            <span className="text-xs text-gray-400">Neural Software Solutions, SRL</span>
           </div>
           <h1 className="display text-4xl font-normal mb-4">
             OCR Invoice Ingestion Pipeline
           </h1>
-          <p className="text-gray-400 text-sm max-w-2xl leading-relaxed">
+          <p className="text-gray-300 text-sm max-w-2xl leading-relaxed">
             AI-powered purchase invoice registration for the accounting team. Upload a photo
             or PDF through a custom web form, get a fully created Purchase Invoice in ERPNext
             — with no file ever touching the server. Azure Document Intelligence handles
@@ -110,7 +82,7 @@ export default function OcrPipelinePage() {
       <section className="py-16 px-6 border-b border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="mb-8">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">
               Architecture
             </span>
             <h2 className="display text-2xl font-normal mt-2">System flow</h2>
@@ -277,11 +249,11 @@ export default function OcrPipelinePage() {
       <section className="py-16 px-6 border-b border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="mb-8">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">
               Interface
             </span>
             <h2 className="display text-2xl font-normal mt-2">In action</h2>
-            <p className="text-gray-400 text-sm mt-2 max-w-xl">
+            <p className="text-gray-300 text-sm mt-2 max-w-xl">
               The custom web form handles five distinct states — each with clear
               Spanish-language feedback tailored to the accounting team.
             </p>
@@ -326,7 +298,7 @@ export default function OcrPipelinePage() {
                 </div>
                 <div>
                   <div className="text-sm text-white font-medium">{caption}</div>
-                  <div className="text-xs text-gray-500 mt-0.5">{sub}</div>
+                  <div className="text-xs text-gray-400 mt-0.5">{sub}</div>
                 </div>
               </div>
             ))}
@@ -339,10 +311,10 @@ export default function OcrPipelinePage() {
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
 
           <div>
-            <div className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-3">
+            <div className="text-xs font-medium text-blue-400 uppercase tracking-widest mb-3">
               My role
             </div>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-300 leading-relaxed">
               End-to-end: the custom web form and client-side validation, the Azure Logic App
               workflows, the Document Intelligence integration, the ERPNext Purchase Invoice
               creation, and the Spanish-language error handling surfaced back to the user.
@@ -350,10 +322,10 @@ export default function OcrPipelinePage() {
           </div>
 
           <div>
-            <div className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-3">
+            <div className="text-xs font-medium text-blue-400 uppercase tracking-widest mb-3">
               What it solves
             </div>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-300 leading-relaxed">
               Manual invoice entry is slow and error-prone. This pipeline lets the accounting
               team photograph a paper invoice and have it registered in seconds — including
               auto-fetching the supplier from the DGII registry if they&apos;ve never been seen
@@ -362,7 +334,7 @@ export default function OcrPipelinePage() {
           </div>
 
           <div>
-            <div className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-3">
+            <div className="text-xs font-medium text-blue-400 uppercase tracking-widest mb-3">
               Stack
             </div>
             <div className="flex flex-wrap gap-2">
@@ -374,7 +346,7 @@ export default function OcrPipelinePage() {
                 'Python',
               ].map((tag) => (
                 <span key={tag}
-                  className="text-xs px-2 py-1 rounded-full bg-gray-900 border border-white/10 text-gray-400">
+                  className="text-xs px-2 py-1 rounded-full bg-gray-900 border border-white/10 text-gray-300">
                   {tag}
                 </span>
               ))}
@@ -384,23 +356,6 @@ export default function OcrPipelinePage() {
         </div>
       </section>
 
-      {/* ── Back link ── */}
-      <div className="px-6 py-12">
-        <div className="max-w-5xl mx-auto">
-          <Link href="/"
-            className="text-sm text-gray-500 hover:text-white transition-colors">
-            ← Back to portfolio
-          </Link>
-        </div>
-      </div>
-
-      {/* ── Footer ── */}
-      <footer className="py-6 px-6 border-t border-white/10">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <span className="text-xs text-gray-600">Gary E. De la Cruz · 2026</span>
-          <span className="text-xs text-gray-600">Built with Next.js · Deployed on Vercel</span>
-        </div>
-      </footer>
-    </div>
+    </ProjectPage>
   )
 }
