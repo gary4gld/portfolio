@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Instrument_Serif, DM_Sans } from 'next/font/google'
+import { pageMetadata } from '@/lib/site'
 
 const instrumentSerif = Instrument_Serif({
   weight: '400',
@@ -16,11 +17,12 @@ const dmSans = DM_Sans({
 
 // ── Metadata ──────────────────────────────────────────────────────────────────
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'DGII e-CF System — Gary De la Cruz',
   description:
     'Architecture and details for an end-to-end DGII e-CF compliance pipeline — covering all 10 mandated invoice types, Azure Functions orchestration, and real-time status tracking.',
-}
+  path: '/projects/dgii-ecf',
+})
 
 // ── Colour tokens (match the portfolio dark theme) ─────────────────────────
 // Each system layer gets its own colour ramp.

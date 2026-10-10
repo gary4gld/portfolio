@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Instrument_Serif, DM_Sans } from 'next/font/google'
+import { pageMetadata } from '@/lib/site'
 
 const instrumentSerif = Instrument_Serif({
   weight: '400',
@@ -16,11 +17,12 @@ const dmSans = DM_Sans({
 
 // ── Metadata ──────────────────────────────────────────────────────────────────
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'OCR Invoice Pipeline — Gary De la Cruz',
   description:
     'AI-powered invoice ingestion built on Azure Document Intelligence — upload a photo, get a registered Purchase Invoice in ERPNext, with automatic supplier creation from the DGII registry.',
-}
+  path: '/projects/ocr-pipeline',
+})
 
 // ── Colour tokens ──────────────────────────────────────────────────────────
 const c = {
