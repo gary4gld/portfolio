@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { SITE_URL, pageMetadata } from "@/lib/site";
+import { Analytics } from "@vercel/analytics/next";
 
 // Loaded once for the whole site; globals.css maps these variables to
 // Tailwind's font-sans / font-serif and the .display class.
@@ -43,7 +44,12 @@ export default function RootLayout({
             styles only apply when the script that reveals them can run. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        {/* Vercel Web Analytics: page views only, no cookies. Data appears in
+            the project's Analytics tab once it's enabled in the dashboard. */}
+        <Analytics />
+      </body>
     </html>
   );
 }
