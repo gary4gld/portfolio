@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { SITE_URL, pageMetadata } from "@/lib/site";
@@ -28,6 +28,11 @@ export const metadata: Metadata = {
   }),
 };
 
+// Colors the mobile browser's address bar to match the site background.
+export const viewport: Viewport = {
+  themeColor: "#030712",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -45,6 +50,14 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>
       <body className="min-h-full flex flex-col">
+        {/* Hidden until focused with Tab: lets keyboard and screen-reader users
+            jump past the navigation straight to the page content. */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-white focus:text-gray-950 focus:text-sm focus:font-medium"
+        >
+          Skip to content
+        </a>
         {children}
         {/* Vercel Web Analytics: page views only, no cookies. Data appears in
             the project's Analytics tab once it's enabled in the dashboard. */}

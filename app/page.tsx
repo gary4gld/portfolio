@@ -3,6 +3,7 @@ import HomeNav from '@/components/HomeNav'
 import ScrollReveal from '@/components/ScrollReveal'
 import SiteFooter from '@/components/SiteFooter'
 import { LinkedInIcon, GitHubIcon, MailIcon } from '@/components/icons'
+import CopyEmailButton from '@/components/CopyEmailButton'
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -61,9 +62,35 @@ const skillGroups = [
   },
   {
     category: 'Backend & data',
-    skills: ['.NET', 'Node.js', 'ERPNext', 'SQL Server', 'Entity Framework'],
+    skills: ['.NET', 'Node.js', 'ERPNext', 'SQL Server', 'MySQL', 'SQLite', 'Entity Framework'],
+  },
+  {
+    category: 'Tools',
+    skills: ['Git', 'Postman'],
   },
 ]
+
+// Structured data for search engines (schema.org Person). Not visible on the
+// page; tells Google this site, LinkedIn and GitHub all belong to one person.
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Gary De la Cruz',
+  url: 'https://www.garydelacruz.dev',
+  jobTitle: 'Full-Stack Software Developer',
+  email: 'mailto:gary4gld@gmail.com',
+  address: { '@type': 'PostalAddress', addressRegion: 'MA', addressCountry: 'US' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Westfield State University' },
+  knowsAbout: [
+    'C#', '.NET', 'TypeScript', 'Angular', 'Next.js', 'Python', 'Azure Functions',
+    'Azure Logic Apps', 'ERPNext', 'Electronic invoicing (DGII e-CF)',
+  ],
+  knowsLanguage: ['English', 'Spanish'],
+  sameAs: [
+    'https://www.linkedin.com/in/gary-de-la-cruz-783895119/',
+    'https://github.com/gary4gld',
+  ],
+}
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 // Server component: all content is rendered as static HTML. Only the nav
@@ -72,8 +99,14 @@ const skillGroups = [
 export default function Home() {
   return (
     <div className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, '\\u003c') }}
+      />
       <HomeNav />
       <ScrollReveal />
+
+      <main id="main">
 
       {/* ── Hero ── */}
       <section id="hero" className="relative pt-36 pb-28 px-6 dot-grid overflow-hidden">
@@ -92,13 +125,17 @@ export default function Home() {
           </div>
 
           <h1
-            className="display font-normal leading-[1.08] tracking-tight mb-6 hero-2"
-            style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.2rem)' }}
+            className="display font-normal leading-[1.02] tracking-tight mb-4 hero-2"
+            style={{ fontSize: 'clamp(3rem, 7vw, 5.25rem)' }}
           >
-            Full-stack developer
-            <br />
-            <span className="text-gray-400">&amp; integration specialist.</span>
+            Gary De la Cruz
           </h1>
+          <p
+            className="display text-gray-400 leading-[1.15] mb-6 hero-2"
+            style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)' }}
+          >
+            Full-stack developer &amp; integration specialist.
+          </p>
 
           <p className="text-lg text-gray-300 max-w-xl leading-relaxed mb-10 hero-3">
             I build the bridges between enterprise systems and government
@@ -263,7 +300,10 @@ export default function Home() {
             {skillGroups.map(({ category, skills }, i) => (
               <div
                 key={category}
-                className="reveal bg-gray-900 border border-white/10 rounded-xl p-5"
+                className={`reveal bg-gray-900 border border-white/10 rounded-xl p-5 ${
+                  // An odd last card spans the full row instead of leaving a gap
+                  i === skillGroups.length - 1 && skillGroups.length % 2 === 1 ? 'sm:col-span-2' : ''
+                }`}
                 style={{ transitionDelay: `${i * 60}ms` }}
               >
                 <div className="text-xs font-medium text-gray-400 mb-3">{category}</div>
@@ -298,12 +338,15 @@ export default function Home() {
                 freelance integrations and consulting on ERPNext or DGII compliance systems.
                 I respond within 24 hours.
               </p>
-              <a
-                href="mailto:gary4gld@gmail.com"
-                className="shimmer px-6 py-3 bg-white text-gray-950 text-sm font-medium rounded-lg hover:bg-gray-100 transition-colors inline-block"
-              >
-                Send me an email
-              </a>
+              <div className="flex flex-wrap items-center gap-3">
+                <a
+                  href="mailto:gary4gld@gmail.com"
+                  className="shimmer px-6 py-3 bg-white text-gray-950 text-sm font-medium rounded-lg hover:bg-gray-100 transition-colors inline-block"
+                >
+                  Send me an email
+                </a>
+                <CopyEmailButton email="gary4gld@gmail.com" />
+              </div>
             </div>
 
             <div className="flex flex-col gap-3 reveal" style={{ transitionDelay: '.08s' }}>
@@ -342,7 +385,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+      </main>
 
       <SiteFooter />
     </div>
