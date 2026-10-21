@@ -22,7 +22,7 @@ export default function ProjectPage({
         </div>
       </nav>
 
-      {children}
+      <main id="main">{children}</main>
 
       <div className="px-6 py-12">
         <div className="max-w-5xl mx-auto">
