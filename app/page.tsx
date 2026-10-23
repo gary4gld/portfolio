@@ -4,12 +4,14 @@ import ScrollReveal from '@/components/ScrollReveal'
 import SiteFooter from '@/components/SiteFooter'
 import { LinkedInIcon, GitHubIcon, MailIcon } from '@/components/icons'
 import CopyEmailButton from '@/components/CopyEmailButton'
+import ProjectVisual from '@/components/ProjectVisual'
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const projects = [
   {
     title: 'DGII e-CF Electronic Invoicing System',
+    visual: 'ecf-pipeline' as const,
     employer: 'Neural Software Solutions, SRL',
     badge: 'Enterprise · Compliance',
     badgeStyle: 'bg-blue-950 text-blue-300',
@@ -21,6 +23,7 @@ const projects = [
   },
   {
     title: 'OCR Invoice Ingestion Pipeline',
+    visual: 'ocr' as const,
     employer: 'Neural Software Solutions, SRL',
     badge: 'Enterprise · AI',
     badgeStyle: 'bg-blue-950 text-blue-300',
@@ -32,6 +35,7 @@ const projects = [
   },
   {
     title: 'ECF XML Validator',
+    visual: 'validator' as const,
     employer: null,
     badge: 'Open Source · Live',
     badgeStyle: 'bg-emerald-950 text-emerald-400',
@@ -225,7 +229,12 @@ export default function Home() {
                 className="reveal"
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                <div className="bg-gray-900/40 border border-white/10 rounded-2xl p-6 hover:border-blue-500/40 hover:-translate-y-0.5 transition-all duration-200">
+                <div className="bg-gray-900/40 border border-white/10 rounded-2xl p-6 hover:border-blue-500/40 hover:-translate-y-0.5 transition-all duration-200 md:grid md:grid-cols-[minmax(0,1fr)_240px] md:gap-8">
+                  {/* Illustration: on top on phones, right column from md up */}
+                  <div className="mb-5 md:mb-0 md:order-2 md:pt-1 max-w-[320px] md:max-w-none">
+                    <ProjectVisual kind={project.visual} />
+                  </div>
+                  <div className="md:order-1 min-w-0">
                   <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
                     <span className={`text-xs px-3 py-1 rounded-full ${project.badgeStyle}`}>
                       {project.badge}
@@ -278,6 +287,7 @@ export default function Home() {
                         </Link>
                       )
                     )}
+                  </div>
                   </div>
                 </div>
               </div>
