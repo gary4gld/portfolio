@@ -37,7 +37,7 @@ const projects = [
     title: 'ECF XML Validator',
     visual: 'validator' as const,
     employer: null,
-    badge: 'Open Source · Live',
+    badge: 'Free to use · Live',
     badgeStyle: 'bg-emerald-950 text-emerald-400',
     description:
       "A free web tool that checks Dominican Republic e-CF invoice XML before it reaches DGII. It validates every document type against the official XSD schemas plus 60+ DGII business rules — math, conditional fields, RNC check digits, sequence and date logic — and explains each issue in plain Spanish, right on the offending line. Built because DGII's own feedback rarely tells you what's actually wrong.",
