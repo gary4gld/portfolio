@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { pageMetadata } from '@/lib/site'
 import ProjectPage from '@/components/ProjectPage'
 
@@ -237,15 +238,7 @@ export default function OcrPipelinePage() {
         </div>
       </section>
 
-      {/* ── UI states ───────────────────────────────────────────────────────
-          Images go in: public/projects/ocr/
-          Expected filenames (rename your files to match):
-            base-state.png   → BaseState.png
-            processing.png   → Procesando.png
-            success.png      → Exito.png
-            error.png        → Fallido.jpeg
-            duplicate.png    → Duplicada.png
-      ── */}
+      {/* ── UI states ── */}
       <section className="py-16 px-6 border-b border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="mb-8">
@@ -263,36 +256,51 @@ export default function OcrPipelinePage() {
             {[
               {
                 src: '/projects/ocr/BaseState.png',
+                width: 733,
+                height: 551,
                 caption: 'Empty state',
                 sub: 'Drag-and-drop upload · client-side file validation',
               },
               {
                 src: '/projects/ocr/Procesando.png',
+                width: 762,
+                height: 716,
                 caption: 'Processing',
                 sub: 'AI extraction in progress · 1–2 min estimate shown',
               },
               {
                 src: '/projects/ocr/Exito.png',
+                width: 742,
+                height: 847,
                 caption: 'Success',
                 sub: 'Invoice created · clickable link to ERPNext document',
               },
               {
                 src: '/projects/ocr/Fallido.jpeg',
+                width: 759,
+                height: 1098,
                 caption: 'Error',
                 sub: 'Extracted data shown · actionable recovery tips in Spanish',
               },
               {
                 src: '/projects/ocr/Duplicada.png',
+                width: 775,
+                height: 895,
                 caption: 'Duplicate detected',
                 sub: 'NCF + supplier matched · links to the existing invoice',
               },
-            ].map(({ src, caption, sub }) => (
+            ].map(({ src, width, height, caption, sub }) => (
               <div key={src} className="space-y-3">
                 <div className="rounded-xl overflow-hidden border border-white/10 bg-gray-900">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  {/* next/image: resized + converted to modern formats on Vercel,
+                      lazy-loaded, and width/height reserve space so the
+                      page doesn't jump while screenshots load. */}
+                  <Image
                     src={src}
-                    alt={caption}
+                    alt={`OCR upload form: ${caption.toLowerCase()} state`}
+                    width={width}
+                    height={height}
+                    sizes="(min-width: 1024px) 300px, (min-width: 640px) 45vw, 100vw"
                     className="w-full h-auto"
                   />
                 </div>

@@ -6,7 +6,7 @@ import ValidatorMockup from './ValidatorMockup'
 export const metadata = pageMetadata({
   title: 'ECF XML Validator — Gary De la Cruz',
   description:
-    'A free, open-source validator for Dominican Republic e-CF invoice XML — official DGII XSD schemas plus 60+ business rules, with inline highlighting and plain-language messages. Live at ecf-validator.garydelacruz.dev.',
+    'A free validator for Dominican Republic e-CF invoice XML — official DGII XSD schemas plus 60+ business rules, with inline highlighting and plain-language messages. Live at ecf-validator.garydelacruz.dev.',
   path: '/projects/ecf-validator',
 })
 
@@ -119,7 +119,7 @@ export default function EcfValidatorPage() {
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-5">
             <span className="text-xs px-3 py-1 rounded-full bg-emerald-950 text-emerald-400">
-              Open Source · Live
+              Free to use · Live
             </span>
             <span className="text-xs text-gray-400">Personal project</span>
           </div>
@@ -285,12 +285,12 @@ export default function EcfValidatorPage() {
         </div>
       </section>
 
-      {/* ── Open source ── */}
+      {/* ── Source code ── */}
       <section className="py-16 px-6 border-b border-white/10">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
           <div>
             <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">
-              Open source
+              Source code
             </span>
             <h2 className="display text-2xl font-normal mt-3 mb-4">
               Free to use. Free to read.
