@@ -103,7 +103,12 @@ export default function DgiiEcfPage() {
           </div>
 
           {/* Diagram container — horizontally scrollable on very small screens */}
-          <div className="rounded-2xl border border-white/10 bg-gray-900/40 p-6 overflow-x-auto">
+          <div
+            className="rounded-2xl border border-white/10 bg-gray-900/40 p-6 overflow-x-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
+            tabIndex={0}
+            role="region"
+            aria-label="DGII e-CF architecture diagram (scrolls sideways on small screens)"
+          >
             <svg
               viewBox="0 0 780 710"
               xmlns="http://www.w3.org/2000/svg"
