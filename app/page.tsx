@@ -51,6 +51,39 @@ const projects = [
   },
 ]
 
+const experience = [
+  {
+    period: '2023 – Present',
+    role: 'Full-Stack Software Developer',
+    org: 'Neural Software Solutions, SRL',
+    summary:
+      'Build and maintain web applications, APIs and enterprise integrations. Designed and delivered the DGII e-CF electronic invoicing system and the OCR invoice ingestion pipeline end to end.',
+    tags: ['C# / .NET', 'Azure Functions', 'Azure Logic Apps', 'ERPNext', 'Angular', 'Python'],
+  },
+  {
+    period: '2020',
+    role: 'Software Developer Intern · Scrum Master',
+    org: 'OpenActuary Project, Westfield State University',
+    summary:
+      'Helped build an online examination platform that is still live today, working across database, backend, frontend and API code, and ran the team’s Agile sprints.',
+    tags: ['Node.js', 'React Native', 'Scrum'],
+    link: { label: 'openactuary.org', href: 'https://openactuary.org' },
+  },
+]
+
+const education = [
+  {
+    degree: 'B.S. Computer Science, minor in Mathematics',
+    school: 'Westfield State University',
+    period: '2017 – 2020',
+  },
+  {
+    degree: 'A.S. Computer Systems and Technology',
+    school: 'Springfield Technical Community College',
+    period: '2011 – 2015',
+  },
+]
+
 const skillGroups = [
   {
     category: 'Cloud & integrations',
@@ -186,8 +219,7 @@ export default function Home() {
                 and shipping Angular frontends that make complex workflows feel simple.
               </p>
               <p className="text-gray-300 text-sm leading-relaxed">
-                Based in Massachusetts, USA. B.S. Computer Science, Westfield State University.
-                Fluent in English and Spanish.
+                Based in Massachusetts, USA. Fluent in English and Spanish.
               </p>
             </div>
 
@@ -204,6 +236,77 @@ export default function Home() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ── Experience & education ───────────────────────────────────────────
+          A vertical timeline: a line down the left, one dot per entry. ── */}
+      <section id="experience" className="py-24 px-6 border-t border-white/10">
+        <div className="max-w-5xl mx-auto">
+          <div className="reveal mb-10">
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">Experience</span>
+            <h2 className="display text-2xl font-normal mt-3">Experience &amp; education.</h2>
+          </div>
+
+          <ol className="relative border-l border-white/10 ml-1.5 space-y-10">
+            {experience.map((job, i) => (
+              <li key={job.org} className="reveal relative pl-8" style={{ transitionDelay: `${i * 80}ms` }}>
+                <span
+                  className="absolute -left-[6.5px] top-1.5 w-3 h-3 rounded-full bg-blue-400 ring-4 ring-gray-950"
+                  aria-hidden="true"
+                />
+                <div className="text-xs font-medium text-blue-400 mb-1">{job.period}</div>
+                <h3 className="text-base font-medium text-white">{job.role}</h3>
+                <div className="text-sm text-gray-400 mb-3">{job.org}</div>
+                <p className="text-sm text-gray-300 leading-relaxed max-w-2xl mb-3">
+                  {job.summary}
+                  {job.link && (
+                    <>
+                      {' '}
+                      <a
+                        href={job.link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-400 hover:text-blue-300 transition-colors"
+                      >
+                        {job.link.label} ↗
+                      </a>
+                    </>
+                  )}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {job.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs px-2 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </li>
+            ))}
+
+            <li className="reveal relative pl-8" style={{ transitionDelay: `${experience.length * 80}ms` }}>
+              {/* Hollow dot marks education apart from work entries */}
+              <span
+                className="absolute -left-[6.5px] top-1.5 w-3 h-3 rounded-full border-2 border-blue-400 bg-gray-950 ring-4 ring-gray-950"
+                aria-hidden="true"
+              />
+              <div className="text-xs font-medium text-blue-400 mb-3">Education</div>
+              <ul className="space-y-3 max-w-2xl">
+                {education.map((ed) => (
+                  <li key={ed.school} className="sm:flex sm:items-baseline sm:justify-between sm:gap-6">
+                    <div>
+                      <div className="text-sm font-medium text-white">{ed.degree}</div>
+                      <div className="text-sm text-gray-400">{ed.school}</div>
+                    </div>
+                    <div className="text-xs text-gray-400 mt-0.5 sm:mt-0 shrink-0">{ed.period}</div>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          </ol>
         </div>
       </section>
 

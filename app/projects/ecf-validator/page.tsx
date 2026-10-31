@@ -96,7 +96,7 @@ const stats = [
   { num: '14', label: 'DGII document formats' },
   { num: '60+', label: 'Business rules' },
   { num: '4', label: 'Severity levels' },
-  { num: '51', label: 'Automated tests' },
+  { num: '62', label: 'Automated tests' },
 ]
 
 const nextUp = [
