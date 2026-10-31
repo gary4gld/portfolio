@@ -67,8 +67,8 @@ export default function ValidatorMockup() {
     function colorize(raw: string, sev: Sev | null): string {
       const vc = sev ? K[sev].v : '#86efac'
       let s = raw.replace(/&/g, '&amp;').replace(/</g, '\x01').replace(/>/g, '\x02')
-      s = s.replace(/\x01!--([\s\S]*?)--\x02/g, `<em style="color:#6e7681">\x01!--$1--\x02</em>`)
-      s = s.replace(/\x01\?([\s\S]*?)\?\x02/g, `<span style="color:#484f58">\x01?$1?\x02</span>`)
+      s = s.replace(/\x01!--([\s\S]*?)--\x02/g, `<em style="color:#8b949e">\x01!--$1--\x02</em>`)
+      s = s.replace(/\x01\?([\s\S]*?)\?\x02/g, `<span style="color:#8b949e">\x01?$1?\x02</span>`)
       s = s.replace(
         /(\x01\/?[\w]+\x02)([^\x01]*)(\x01\/[\w]+\x02)/g,
         (_, o, v, c) => {
@@ -124,11 +124,11 @@ export default function ValidatorMockup() {
           const ls = s
             ? `background:rgba(${s.r},0.07);border-left:4px solid ${s.h};box-shadow:inset 8px 0 28px rgba(${s.r},0.09)`
             : 'border-left:4px solid transparent'
-          const nc = s ? s.h : '#484f58'
+          const nc = s ? s.h : '#8b949e'
           const attrs = eid
             ? `data-lid="${eid}" style="display:flex;cursor:pointer;${ls}"`
             : `style="display:flex;${ls}"`
-          return `<div ${attrs}><span style="width:34px;min-width:34px;text-align:right;padding-right:12px;color:${nc};font-size:11px;opacity:${s ? 0.9 : 0.45};user-select:none;padding-top:1px">${n}</span><span style="flex:1;min-width:0;white-space:pre;color:#e6edf3;padding-right:16px">${colorize(text, sev)}</span></div>`
+          return `<div ${attrs}><span style="width:34px;min-width:34px;text-align:right;padding-right:12px;color:${nc};font-size:11px;opacity:${s ? 1 : 0.85};user-select:none;padding-top:1px">${n}</span><span style="flex:1;min-width:0;white-space:pre;color:#e6edf3;padding-right:16px">${colorize(text, sev)}</span></div>`
         })
         .join('')
 
@@ -141,12 +141,12 @@ export default function ValidatorMockup() {
     // Error pane
     if (errRef.current) {
       errRef.current.innerHTML =
-        `<div style="font-size:10px;color:#4b5563;letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin-bottom:10px">6 issues encontrados</div>` +
+        `<div style="font-size:10px;color:#9ca3af;letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin-bottom:10px">6 issues encontrados</div>` +
         errs
           .map(e => {
             const c = K[e.sev]
             const lr = e.line ? `línea ${e.line}` : 'documento'
-            return `<div data-id="${e.id}" style="padding:10px 12px;border-radius:8px;margin-bottom:6px;cursor:pointer;border-left:3px solid ${c.h};border-top:0.5px solid rgba(255,255,255,0.07);border-right:0.5px solid rgba(255,255,255,0.07);border-bottom:0.5px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.03)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:5px"><span style="width:7px;height:7px;border-radius:50%;background:${c.h};flex-shrink:0"></span><code style="font-size:11px;font-weight:500;color:${c.h};font-family:monospace">&lt;${e.field}&gt;</code></div><p style="font-size:11px;color:#9ca3af;line-height:1.55;margin:0 0 5px">${e.msg}</p><span style="font-size:10px;color:#4b5563">${lr}</span></div>`
+            return `<div data-id="${e.id}" style="padding:10px 12px;border-radius:8px;margin-bottom:6px;cursor:pointer;border-left:3px solid ${c.h};border-top:0.5px solid rgba(255,255,255,0.07);border-right:0.5px solid rgba(255,255,255,0.07);border-bottom:0.5px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.03)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:5px"><span style="width:7px;height:7px;border-radius:50%;background:${c.h};flex-shrink:0"></span><code style="font-size:11px;font-weight:500;color:${c.h};font-family:monospace">&lt;${e.field}&gt;</code></div><p style="font-size:11px;color:#9ca3af;line-height:1.55;margin:0 0 5px">${e.msg}</p><span style="font-size:10px;color:#9ca3af">${lr}</span></div>`
           })
           .join('')
 
@@ -192,7 +192,13 @@ export default function ValidatorMockup() {
       {/* Stacks on small screens; side by side from md up. The XML pane
           scrolls horizontally on its own so long lines never widen the page. */}
       <div className="flex flex-col md:flex-row md:items-start">
-        <div className="flex-1 min-w-0 overflow-x-auto border-b md:border-b-0 md:border-r border-white/[0.07] md:min-h-[680px]" style={{ background: '#0d1117' }}>
+        <div
+          className="flex-1 min-w-0 overflow-x-auto border-b md:border-b-0 md:border-r border-white/[0.07] md:min-h-[680px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
+          style={{ background: '#0d1117' }}
+          tabIndex={0}
+          role="region"
+          aria-label="Demo XML document"
+        >
           <div
             ref={xmlRef}
             className="py-3 w-max min-w-full"

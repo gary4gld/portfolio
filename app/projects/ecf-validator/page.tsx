@@ -27,7 +27,7 @@ const severities = [
     text: 'text-orange-400',
     bg: 'bg-orange-950/40',
     label: 'Math discrepancy',
-    desc: 'Calculated ITBIS, totals, or retentions don\'t match the declared amounts.',
+    desc: 'Recalculated line totals, ITBIS or MontoTotal don\'t match the declared amounts.',
   },
   {
     dot: 'bg-yellow-400',
@@ -46,6 +46,14 @@ const severities = [
     desc: 'Not an error — signature absent, unusual date gap, or a deprecated field in use.',
   },
   {
+    dot: 'bg-slate-400',
+    border: 'border-slate-400/30',
+    text: 'text-slate-300',
+    bg: 'bg-slate-900/40',
+    label: 'Advisory',
+    desc: 'Doesn\'t affect validity — context worth knowing, like hints from the emitter\'s registered business activity. Shown in its own lane.',
+  },
+  {
     dot: 'bg-emerald-400',
     border: 'border-emerald-500/30',
     text: 'text-emerald-400',
@@ -62,14 +70,14 @@ const capabilities = [
     label: 'Schema & structure',
     items: [
       'Official DGII XSD validation for all 10 e-CF types, the RFCE summary, and the ARECF / ACECF / ANECF response documents',
-      'Document type detected automatically — the right schema is picked for you',
-      'Packed or minified XML is beautified before display',
+      'Element order checked against the schema sequence; required and forbidden fields per document type',
+      'Document type detected automatically, and packed XML is beautified before display',
     ],
   },
   {
     label: 'Identity & sequences',
     items: [
-      'RNC and cédula check-digit validation, plus a live taxpayer lookup',
+      'RNC and cédula check digits, plus a live DGII registry lookup (active status, electronic-invoicer registration)',
       'eNCF prefix ↔ TipoeCF consistency',
       'Province and municipality codes checked against DGII tables',
     ],
@@ -77,17 +85,26 @@ const capabilities = [
   {
     label: 'Math',
     items: [
-      'ITBIS rates, subtotals, additional taxes and MontoTotal recalculated and compared with the declared amounts',
-      'Export totals for E-46 (CIF = FOB + insurance + freight + other costs)',
-      'Foreign-currency (OtraMoneda) conversions verified',
+      'Per-line arithmetic (quantity × price) and header totals recalculated',
+      'ITBIS rates, additional taxes (ISC) and MontoTotal compared with the declared amounts',
+      'Export totals for E-46 and foreign-currency (OtraMoneda) conversions and cross-rates',
     ],
   },
   {
-    label: 'Business rules & dates',
+    label: 'Business rules, dates & signature',
     items: [
-      '60+ DGII business rules — required-if fields and sections forbidden by invoice type',
-      'Future FechaHoraFirma detection, with a hint when a UTC / GMT-4 mismatch is the likely cause',
-      'Digital signature presence detected — pre-signature and signed XML both accepted',
+      '60+ DGII business rules: required-if fields and sections forbidden by invoice type',
+      'GMT-4 date handling, with a hint when a future FechaHoraFirma points to a UTC mix-up',
+      'Structural digital-signature check (well-formed, non-empty), without claiming cryptographic validity',
+      'Advisory hints based on the emitter’s registered economic activity',
+    ],
+  },
+  {
+    label: 'Working with results',
+    items: [
+      'Click any issue to jump to its line, and back',
+      'Filter by severity, with a built-in legend',
+      'Copy the issue list or export it as JSON, sorted by severity',
     ],
   },
 ]
@@ -95,14 +112,13 @@ const capabilities = [
 const stats = [
   { num: '14', label: 'DGII document formats' },
   { num: '60+', label: 'Business rules' },
-  { num: '4', label: 'Severity levels' },
+  { num: '5', label: 'Severity levels' },
   { num: '62', label: 'Automated tests' },
 ]
 
 const nextUp = [
-  'Cryptographic signature verification — not just presence',
+  'Cryptographic signature verification — not just structure',
   'Batch mode for validating many XMLs at once',
-  'Exportable error reports',
 ]
 
 const LIVE_URL = 'https://ecf-validator.garydelacruz.dev'
@@ -127,7 +143,7 @@ export default function EcfValidatorPage() {
           <p className="text-gray-300 text-sm max-w-2xl leading-relaxed">
             A developer tool for validating Dominican Republic e-CF invoice XML against
             official DGII XSD schemas. It highlights every issue in context — breaking
-            errors, math discrepancies, conditional warnings, and informational notes —
+            errors, math discrepancies, conditional warnings, informational notes and advisory hints —
             with human-readable messages instead of the vague feedback DGII gives you.
             Validation runs in your browser — the XML itself is never uploaded.
           </p>
@@ -207,7 +223,7 @@ export default function EcfValidatorPage() {
             <h2 className="display text-2xl font-normal mt-2">What it looks like</h2>
             <p className="text-gray-300 text-sm mt-2">
               A simplified demo of the real interface. Click any issue to jump to its line — and back.{' '}
-              <a href={LIVE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">
+              <a href={LIVE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline underline-offset-2 decoration-blue-400/50 hover:text-blue-300">
                 Try it with your own XML ↗
               </a>
             </p>
@@ -223,7 +239,7 @@ export default function EcfValidatorPage() {
             <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">
               Highlighting
             </span>
-            <h2 className="display text-2xl font-normal mt-2">Five states, immediately readable</h2>
+            <h2 className="display text-2xl font-normal mt-2">Six states, immediately readable</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {severities.map(({ dot, border, text, bg, label, desc }) => (
@@ -255,8 +271,13 @@ export default function EcfValidatorPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {capabilities.map(({ label, items }) => (
-              <div key={label} className="bg-gray-900 border border-white/10 rounded-xl p-5">
+            {capabilities.map(({ label, items }, i) => (
+              <div
+                key={label}
+                className={`bg-gray-900 border border-white/10 rounded-xl p-5 ${
+                  i === capabilities.length - 1 && capabilities.length % 2 === 1 ? 'md:col-span-2' : ''
+                }`}
+              >
                 <div className="text-sm font-medium text-white mb-4">{label}</div>
                 <ul className="space-y-2">
                   {items.map(item => (

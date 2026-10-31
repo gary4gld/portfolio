@@ -22,15 +22,17 @@ export default function ProjectPage({
         </div>
       </nav>
 
-      <main id="main">{children}</main>
+      <main id="main">
+        {children}
 
-      <div className="px-6 py-12">
-        <div className="max-w-5xl mx-auto">
-          <Link href="/" className="text-sm text-gray-400 hover:text-blue-400 transition-colors">
-            ← Back to portfolio
-          </Link>
+        <div className="px-6 py-12">
+          <div className="max-w-5xl mx-auto">
+            <Link href="/" className="text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              ← Back to portfolio
+            </Link>
+          </div>
         </div>
-      </div>
+      </main>
 
       <SiteFooter />
     </div>

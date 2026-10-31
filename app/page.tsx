@@ -227,7 +227,7 @@ export default function Home() {
               {[
                 { num: '3+', label: 'Years of professional full-stack experience' },
                 { num: '6',  label: 'Programming languages used in real-world projects' },
-                { num: '4',  label: 'Cloud & enterprise platforms shipped' },
+                { num: '2',  label: 'Production systems designed and built end to end' },
               ].map(({ num, label }) => (
                 <div key={label} className="bg-gray-900 border border-white/10 rounded-xl p-4">
                   <div className="text-2xl font-medium text-white">{num}</div>
@@ -267,7 +267,7 @@ export default function Home() {
                         href={job.link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-400 hover:text-blue-300 transition-colors"
+                        className="text-blue-400 underline underline-offset-2 decoration-blue-400/50 hover:text-blue-300 transition-colors"
                       >
                         {job.link.label} ↗
                       </a>
