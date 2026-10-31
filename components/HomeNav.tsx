@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react'
 import { HamburgerIcon, CloseIcon } from './icons'
 
-const NAV_ITEMS = ['About', 'Projects', 'Skills', 'Contact'] as const
-const SECTION_IDS = ['hero', 'about', 'projects', 'skills', 'contact']
+const NAV_ITEMS = ['About', 'Experience', 'Projects', 'Skills', 'Contact'] as const
+const SECTION_IDS = ['hero', 'about', 'experience', 'projects', 'skills', 'contact']
 
 // Fixed top nav for the home page. Highlights the section currently in the
 // middle of the viewport and handles the mobile menu.
