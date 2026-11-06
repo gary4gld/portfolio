@@ -57,4 +57,6 @@ public/resume/            Résumé PDF
 - **Share images** are generated at build time from `lib/og.tsx`. After changing them, use [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/) to refresh LinkedIn's cache.
 - **Accessibility:** text meets WCAG AA contrast, animations respect `prefers-reduced-motion`, and content stays visible without JavaScript.
 
-© Gary De la Cruz. All rights reserved.
+## License
+
+© 2026 Gary De la Cruz. All rights reserved. The source is public to view and reference, not to reuse. See [LICENSE](./LICENSE) for details and how to request permission. Third-party dependencies and the fonts in `assets/fonts` keep their own licenses.
