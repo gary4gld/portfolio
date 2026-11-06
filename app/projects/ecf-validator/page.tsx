@@ -321,6 +321,11 @@ export default function EcfValidatorPage() {
               category — format, math, conditional fields, sequences, registry — and a Vitest
               suite runs valid and deliberately broken XML fixtures against the engine.
             </p>
+            <p className="text-gray-300 text-sm leading-relaxed mt-4">
+              The source is available under the PolyForm Noncommercial 1.0.0 license: free to
+              read, study, and modify for noncommercial use. The hosted tool is free for
+              everyone, including businesses.
+            </p>
           </div>
           <div className="space-y-3 mt-2">
             {[

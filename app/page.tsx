@@ -219,6 +219,10 @@ export default function Home() {
                 and shipping Angular frontends that make complex workflows feel simple.
               </p>
               <p className="text-gray-300 text-sm leading-relaxed">
+                Before software full-time, I taught physics and robotics, which is where I
+                learned to explain technical ideas simply.
+              </p>
+              <p className="text-gray-300 text-sm leading-relaxed">
                 Based in Massachusetts, USA. Fluent in English and Spanish.
               </p>
             </div>
